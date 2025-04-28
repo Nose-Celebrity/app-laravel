@@ -25,9 +25,6 @@
         <label>説明：</label><br>
         <textarea name="body">{{ old('body') }}"></textarea><br><br>
 
-        <label>制作日：</label><br>
-        <input type="date" name="date" value="{{ old('date') }}"><br><br>
-
         <label>画像：</label><br>
         <input type="file" name="photo"><br><br>
 

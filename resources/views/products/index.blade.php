@@ -30,9 +30,9 @@
     <div class="product-list">
         @forelse ($products as $product)
             <div class="product-card">
-                <a href="{{ route('products.show') }}">作品詳細へ</a>
                 <img src="{{ asset('storage/' . $product->photo) }}" alt="作品画像">
                 <h3>{{ $product->title }}</h3>
+                <a href="{{ route('products.show', ['id' => $product->id]) }}">詳細を見る</a>
             </div>
         @empty
             <p>作品が登録されていません。</p>

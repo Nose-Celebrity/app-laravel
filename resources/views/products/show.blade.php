@@ -44,7 +44,7 @@
     <div class="container">
         <!-- 作品詳細 -->
         <div class="card">
-            <img src="{{ $product->photo }}" alt="作品の画像">
+            <img src="{{ asset('storage/' . $product->photo) }}" alt="作品の画像">
             <p>{{ $product->body }}</p>
             <small>投稿日: {{ $product->date }}</small>
         </div>

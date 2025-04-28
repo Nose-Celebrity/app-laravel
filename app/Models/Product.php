@@ -11,4 +11,9 @@ class Product extends Model
         'user_id', 'title', 'body', 'photo', 'date',
     ];
 
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
 }
