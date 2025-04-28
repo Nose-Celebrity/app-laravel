@@ -1,7 +1,8 @@
 services:
   web:
-    image: ghcr.io/kd-it/php-devcontainer/web:1744003610
-    # build: docker/web
+    image: ghcr.io/kd-it/php-devcontainer/web:1728614961
+
+    #build: docker/web
     volumes:
       - .:/app:cached
     env_file:
@@ -11,8 +12,8 @@ services:
       - db
 
   app:
-    image: ghcr.io/kd-it/php-devcontainer/app:1744003610
-    # build: docker/app
+    image: ghcr.io/kd-it/php-devcontainer/app:1728614960
+    #build: docker/app
     env_file:
       - env.txt
     volumes:
@@ -26,6 +27,7 @@ services:
       - env.txt
     volumes:
       - db_data:/var/lib/mysql
+      - ./database-init:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "/usr/local/bin/healthcheck.sh"]
       interval: 30s
@@ -33,6 +35,8 @@ services:
       retries: 5
       start_period: 5s
 
+
 volumes:
   db_data:
   vendor:
+
