@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReplyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,3 +31,5 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('products
 
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
+// 作品へのリプライ投稿処理
+Route::post('/products/{product}/replies', [ReplyController::class, 'store'])->name('replies.store');
