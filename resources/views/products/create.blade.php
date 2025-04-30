@@ -26,9 +26,34 @@
         <textarea name="body">{{ old('body') }}</textarea><br><br>
 
         <label>画像：</label><br>
-        <input type="file" name="photo"><br><br>
+        <input type="file" name="photo" id="photoInput" accept="image/*"><br><br>
+
+        {{-- プレビュー表示用 --}}
+        <div id="previewContainer" style="display:none;">
+            <p>画像プレビュー：</p>
+            <img id="imagePreview" src="#" alt ="プレビュー" style="max-width: 300px" >
+        </div>
 
         <button type="submit">投稿する</button>
     </form>
-</body>
+    <script>
+        // 画像プレビュー表示
+        document.getElementById('photoInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('previewContainer');
+            const preview = document.getElementById('imagePreview');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.src = event.target.result;
+                    previewContainer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+            else {
+                previewContainer.style.display = 'none';
+                preview.src = '#';
+            }
+        });
+    </script>
 </html>

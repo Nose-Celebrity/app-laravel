@@ -64,6 +64,47 @@
                 @endforelse
             </div>
         </div>
+
+        <!-- 返信フォーム -->
+        <div class="card">
+            <h3>返信を書く</h3>
+
+            {{-- 成功メッセージ --}}
+            @if (session('success'))
+                <div style="color: green; margin-bottom: 1em;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            {{-- バリデーションエラー表示 --}}
+            @if ($errors->any())
+                <div style="color: red; margin-bottom: 1em;">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('replies.store', ['product' => $product->id]) }}" method="POST">
+                @csrf
+
+                <div>
+                    <label for="title">タイトル:</label><br>
+                    <input type="text" name="title" id="title" required style="width: 100%;">
+                </div>
+
+                <div style="margin-top: 1em;">
+                    <label for="body">本文:</label><br>
+                    <textarea name="body" id="body" rows="4" required style="width: 100%;"></textarea>
+                </div>
+
+                <div style="margin-top: 1em;">
+                    <button type="submit">送信</button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
