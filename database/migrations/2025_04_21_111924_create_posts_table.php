@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id(); // ID: int, primary key
             $table->unsignedBigInteger('user_id'); // 外部キー
-            $table->char('title');
-            $table->char('body');
+            $table->text('title');
+            $table->text('body');
             $table->timestamps();
 
             // リレーションシップの定義

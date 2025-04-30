@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id(); // ID: auto increment
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');     // userID: リレーション
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // productID: リレーション
-            $table->char('title');  // title: Char
-            $table->char('body');     //
+            $table->text('title');  // title: Char
+            $table->text('body');     //
             $table->date('date');     // date: date
             $table->timestamps();     // created_at, updated_at
         });
