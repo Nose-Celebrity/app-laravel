@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\Auth\AuthController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//ログイン画面へのルート設定
+Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/index', function () {
     return view('index');
@@ -29,4 +31,15 @@ Route::post('/products', [ProductController::class, 'store'])->name('products.st
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+// 作品へのリプライ投稿処理
+Route::post('/products/{product}/replies', [ReplyController::class, 'store'])->name('replies.store');
+
+
+Route::get('home',function(){
+    return view('home');
+})->name('home')->middleware('auth');
+
+
+Route::post('logout',[AuthController::class, 'logout'])->name('logout');
 

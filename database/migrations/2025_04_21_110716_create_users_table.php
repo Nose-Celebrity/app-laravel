@@ -21,6 +21,13 @@ return new class extends Migration
             $table->tinyInteger('locked_flg')->default(0);
             $table->integer('error_count')->unsigned()->default(0);
             $table->timestamps();
+
+            $table->string('mail_address')->nullable();
+            /*
+            *$table->string('mail_address')->unique();
+            *正規のコード
+            */
+
         });
     }
 
