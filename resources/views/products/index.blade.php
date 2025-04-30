@@ -23,6 +23,11 @@
 </head>
 <body>
     <h1>作品一覧</h1>
+    <!-- 検索フォーム -->
+    <form method="GET" action="{{ route('products.index') }}">
+        <input type="text" name="keyword" value="{{ request(`keyword`)}}" placeholder="aaaaa">
+        <button type="submit">検索</button>
+    </form>
 
     <!-- 投稿ページへのリンク -->
     <a href="{{ route('products.create') }}">▶ 新しい制作物を投稿</a>

@@ -8,8 +8,20 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     // 作品一覧を表示する
-    public function index()
+    public function index(Request $request)
     {
+        $query = Product::query();
+        // 検索機能
+        if ($request->filled('keyword')) {
+            // 検索キーワードを取得
+            $keyword = $request->keyword;
+            $query->where (function($q) use ($keyword){
+                $q->where(`title`, `like`, "%{$keyword}%")
+                    ->orWhere(`body`, `like`, "%{$keyword}%");
+            });
+            }
+
+        // 作品一覧を表示する
         $products = Product::latest()->get(); // データベースから新しい順に作品を全部取る
         return view('products.index', compact('products')); // 一覧ページへデータを渡す
     }
