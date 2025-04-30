@@ -1,24 +1,93 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel= "stylesheet" href="{{asset('css/style.css')}}">
-<title>test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" href="{{asset('css/style.css')}}">
+    <title>test</title>
+    <style>
+        body {
+            font-family: Arial;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #444;
+        }
+
+        .new-post {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .new-post:hover {
+            background-color: #0056b3;
+        }
+
+        .post {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .post h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .user{
+            text-align: right;
+            font-size: 1em;
+            color: #999;
+        }
+
+        .body {
+            color: #666;
+        }
+
+
+        .no-posts {
+            text-align: center;
+            font-size: 1em;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
-    <h1>掲示板一覧</h1>
-    <a href="{{ route('posts.create') }}">新しい書き込み</a>
-    @forelse ($posts as $post)
-        <h3>{{ $post->title }}</h3>
-        <p id="test1">{{ $post->body }}</p>
-        <p>
-            {{ $post->user->name ?? '不明なユーザー' }}（{{ $post->created_at->format('Y年m月d日 H:i') }}）
-        </p>
-
-    @empty
-        <p>投稿内容がありません。</p>
-    @endforelse
-
+    <div class="container">
+        <h1>掲示板一覧</h1>
+        <a class = "new-post" href="{{ route('posts.create') }}">新しい書き込み</a>
+        @forelse ($posts as $post)
+            <div class="post">
+                <h3>{{ $post->title }}</h3>
+                <p class = "body">{{ $post->body }}</p>
+                <p class = "user">
+                    {{ $post->user->name ?? '不明なユーザー' }}（{{ $post->created_at->format('Y年m月d日 H:i') }}）
+                </p>
+            </div>
+            @empty
+                <p class="no-posts">投稿内容がありません。</p>
+            @endforelse
+    </div>
 </body>
 </html>
