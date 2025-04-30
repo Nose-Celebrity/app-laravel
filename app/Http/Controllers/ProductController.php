@@ -16,13 +16,13 @@ class ProductController extends Controller
             // 検索キーワードを取得
             $keyword = $request->keyword;
             $query->where (function($q) use ($keyword){
-                $q->where(`title`, `like`, "%{$keyword}%")
-                    ->orWhere(`body`, `like`, "%{$keyword}%");
+                $q->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('body', 'like', "%{$keyword}%");
             });
             }
 
         // 作品一覧を表示する
-        $products = Product::latest()->get(); // データベースから新しい順に作品を全部取る
+        $products = $query->latest()->get(); // データベースから新しい順に作品を全部取る
         return view('products.index', compact('products')); // 一覧ページへデータを渡す
     }
 
