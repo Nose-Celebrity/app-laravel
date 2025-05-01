@@ -34,7 +34,7 @@ Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
 // 作品へのリプライ投稿処理
 Route::post('/products/{product}/replies', [ReplyController::class, 'store'])->name('replies.store');
-<<<<<<< HEAD
+
 
 
 Route::get('home',function(){
@@ -44,5 +44,5 @@ Route::get('home',function(){
 
 Route::post('logout',[AuthController::class, 'logout'])->name('logout');
 
-=======
->>>>>>> a1e26cda8f136e965b54a47afbc3952aa8cecad2
+
+
