@@ -3,32 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel= "stylesheet" href="{{asset('css/style.css')}}">
-    <title>test</title>
+    <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+    <title>posts</title>
     <style>
-        body {
-            font-family: Arial;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1280px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #444;
-        }
-
         .new-post {
             display: inline-block;
             margin: 10px 0;
@@ -71,6 +48,7 @@
             font-size: 1em;
             color: #888;
         }
+
     </style>
 </head>
 <body>
