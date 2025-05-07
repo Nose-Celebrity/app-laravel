@@ -5,7 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\AnswerController;
 //ログイン画面へのルート設定
 Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -44,5 +44,7 @@ Route::get('home',function(){
 
 Route::post('logout',[AuthController::class, 'logout'])->name('logout');
 
+Route::post('/posts/{post}/answers', [AnswerController::class, 'store'])->name('answers.store');
 
-
+// 投稿の詳細・回答ページのルート
+Route::get('/posts/{post}/answer', [PostController::class, 'answer'])->name('posts.answer');

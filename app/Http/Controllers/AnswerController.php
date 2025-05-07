@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -25,18 +27,17 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+
+
+
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -61,4 +62,21 @@ class AnswerController extends Controller
     {
         //
     }
+    public function store(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
+
+        Answer::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'user_id' =>1, //仮auth()->id(),
+            'posts_id' => $post->id,
+        ]);
+
+        return redirect()->route('posts.answer', $post);
+    }
+
 }

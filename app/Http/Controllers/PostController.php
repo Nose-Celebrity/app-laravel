@@ -7,75 +7,42 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    // 質問投稿一覧画面のビューを表示
     public function index()
     {
-        try {
-            // 通常の取得処理
-            $posts = Post::latest()->get();
-        } catch (\Exception $e) {
-            // DB接続エラーなどが起きた場合
-            $posts = collect(); // 空のコレクションを代入
-        }
-
+        $posts = Post::latest()->get();
         return view('posts.index', compact('posts'));
     }
 
-
-    // 質問作成画面への遷移
     public function create()
     {
         return view('posts.create');
     }
 
-    // 質問投稿コントローラー
-    // 質問をDBに保存後質問一覧画面へ遷移
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
         ]);
 
-        Post::create([
-            'user_id' => 1, // 仮のユーザーID
+        $post = Post::create([
             'title' => $request->title,
             'body' => $request->body,
+            'user_id' =>1 //仮auth()->id(), // ログインユーザーを取得
         ]);
 
         return redirect()->route('posts.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        $answers = $post->answers()->latest()->get();
+        return view('posts.show', compact('post', 'answers'));
     }
+    public function answer(Post $post)
+{
+    $answers = $post->answers()->latest()->get(); // 回答を取得
+    return view('posts.answer', compact('post', 'answers'));
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

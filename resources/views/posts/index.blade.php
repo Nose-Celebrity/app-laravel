@@ -66,6 +66,8 @@
                 <p class = "user">
                     {{ $post->user->name ?? '不明なユーザー' }}（{{ $post->created_at->format('Y年m月d日 H:i') }}）
                 </p>
+                <!--詳細画面、回答-->
+            <a href="{{ route('posts.answer', $post->id) }}" class="new-post">詳細・回答へ</a>
             </div>
             @empty
                 <p class="no-posts">投稿内容がありません。</p>
