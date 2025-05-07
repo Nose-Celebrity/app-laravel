@@ -34,6 +34,16 @@
             <img id="imagePreview" src="#" alt ="プレビュー" style="max-width: 300px" >
         </div>
 
+        <label>ジャンル：</label><br>
+        @foreach ($genres as $genre)
+            <label>
+                <input type="checkbox" name="genres[]" value="{{ $genre->id }}">
+                {{ $genre->genre }}
+            </label><br>
+        @endforeach
+        <br>
+
+
         <button type="submit">投稿する</button>
     </form>
     <script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Genres;
 
 class ProductController extends Controller
 {
@@ -11,51 +12,62 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::query();
-        // 検索機能
-        if ($request->filled('keyword')) {
-            // 検索キーワードを取得
-            $keyword = $request->keyword;
-            $query->where (function($q) use ($keyword){
-                $q->where('title', 'like', "%{$keyword}%")
-                    ->orWhere('body', 'like', "%{$keyword}%");
-            });
-            }
 
-        // 作品一覧を表示する
-        $products = $query->latest()->get(); // データベースから新しい順に作品を全部取る
-        return view('products.index', compact('products')); // 一覧ページへデータを渡す
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function($q) use ($keyword){
+                $q->where('title', 'like', "%{$keyword}%")
+                ->orWhere('body', 'like', "%{$keyword}%");
+            });
+        }
+
+        if ($request->filled('genre')) {
+            $genreId = $request->genre;
+            $query->whereHas('genres', function($q) use ($genreId) {
+                $q->where('genre_id', $genreId);
+            });
+        }
+
+        $products = $query->latest()->get();
+        $genres = Genres::all();
+
+        return view('products.index', compact('products', 'genres'));
     }
 
-    // 投稿フォームを表示する
     public function create()
     {
-        return view('products.create'); // 投稿画面のビューを表示
+        $genres = Genres::all();
+        return view('products.create', compact('genres'));
     }
 
     // 投稿された内容を保存する
     public function store(Request $request)
-{
-    // バリデーション（dateは不要）
-    $request->validate([
-        'title' => 'required',
-        'body' => 'required',
-        'photo' => 'required|image|max:2048',
-    ]);
+    {
+        // バリデーション（ジャンル配列を追加）
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'photo' => 'required|image|max:2048',
+            'genres' => 'required|array',
+        ]);
 
-    // アップロードされた画像を保存
-    $path = $request->file('photo')->store('images', 'public');
+        // アップロード画像の保存
+        $path = $request->file('photo')->store('images', 'public');
 
-    // データ保存
-    Product::create([
-        'user_id' => 1, // 仮固定（あとでログインユーザーにするといいね）
-        'title' => $request->title,
-        'body' => $request->body,
-        'date' => now(), // ★ここで現在日時を自動記録（日時まで含む）
-        'photo' => $path,
-    ]);
+        // Product レコード作成
+        $product = Product::create([
+            'user_id' => 1, // 仮固定（後で認証ユーザーに変更可能）
+            'title' => $request->title,
+            'body' => $request->body,
+            'date' => now(),
+            'photo' => $path,
+        ]);
 
-    return redirect()->route('products.index')->with('success', '投稿が完了しました！');
-}
+        // 中間テーブルにジャンルを保存（複数対応）
+        $product->genres()->attach($request->genres);
+
+        return redirect()->route('products.index')->with('success', '投稿が完了しました！');
+    }
 
 
     public function show($id)
