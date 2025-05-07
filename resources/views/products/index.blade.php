@@ -32,6 +32,16 @@
         <!-- 検索フォーム -->
         <form method="GET" action="{{ route('products.index') }}">
             <input type="text" name="keyword" value="{{ request('keyword')}}" placeholder="検索内容を入力">
+
+        <select name="genre">
+            <option value="">ジャンルを選択</option>
+            @foreach ($genres as $genre)
+                <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>
+                    {{ $genre->genre }}
+                </option>
+            @endforeach
+        </select>
+
             <button type="submit">検索</button>
         </form>
 
