@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{asset('/css/style.css')}}">
-    <title>posts</title>
+    <title>質問一覧</title>
     <style>
         .new-post {
             display: inline-block;
@@ -22,9 +22,11 @@
         }
 
         .post {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
         }
 
         .post h3 {
@@ -53,7 +55,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>掲示板一覧</h1>
+        <h1>質問一覧</h1>
         <ul class="menu" style="list-style: none; padding-left: 0;">
             <li><a class="select now" href="{{ route('posts.index')}}">質問</a></li>
             <li><a class="select " href="{{ route('products.index')}}">作品投稿</a></li>
