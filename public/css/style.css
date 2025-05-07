@@ -1,3 +1,4 @@
+/*共通設定用css*/
 body {
     font-family: Arial;
     line-height: 1.6;
@@ -29,10 +30,48 @@ h1 {
     background-color: #007BFF;
     color: white;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 10px;
     text-align: center;
 }
 
 .browser-back:hover{
     background-color:#0056b3;
+}
+
+.menu{
+	display: flex;
+	flex-wrap:wrap;
+}
+.menu li {
+	width: calc(100%/8);
+	padding:0 2px;/*左右に余白を入れる場合*/
+	box-sizing:border-box;
+}
+.menu li img {
+	max-width:100%; /*はみだしを防ぐ*/
+	height: auto; /*縦横比を維持 */
+}
+.select {
+    text-decoration: none!important;
+    justify-content: center; /*左右間で中央*/
+    align-items: center;/*上下間で中央*/
+    color: #fff!important;
+    display: flex!important;/*画面に合わせてサイズが変わる*/
+    flex-wrap:wrap!important;/*要素の折り返し設定*/
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: none;
+    transition: .2s;
+    background: #007BFF;
+}
+
+.select:hover{
+    box-shadow: none;
+    transform: translateY(2px);
+    opacity: .8;
+}
+
+.now{
+    background: #ff009d;
 }
