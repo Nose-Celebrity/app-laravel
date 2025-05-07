@@ -1,4 +1,5 @@
 <?php
+use App\models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -10,6 +11,11 @@ use App\Http\Middleware\CheckLogin;
 //ログイン画面へのルート設定
 Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+//パスワード変更画面へのルート設定
+Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
+Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update');
+
 
 //ログイン判定関係
 // ミドルウェア適用（ログイン必須のルート）
