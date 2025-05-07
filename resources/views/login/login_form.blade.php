@@ -43,6 +43,8 @@
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードを変更する</a>
+
         </form>
     </div>
 </body>

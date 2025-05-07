@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\LoginFormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\models\User;
 
 class AuthController extends Controller // 修正
 {
@@ -59,5 +61,39 @@ public function logout(Request $request)
         $request->session()->regenerateToken();
 
         return redirect()->route('login.show')->with('danger','ログアウトしました');
+    }
+
+
+
+
+    public function chlogin(Request $request)
+    {
+        //パスワード変更フォームへ移動
+        return view('login.change_password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        //フォーム内容の確認
+        $request->validate([
+            'mailaddress' => 'required',
+            'password' => 'required',
+            'new_password' => 'required',
+        ]);
+
+        //ユーザ情報の取得
+        $user = Auth::user();
+
+        $user = User::where('mail_address',$request->input('mailaddress'))->first();
+
+
+        if(!Hash::check($request->input('password'),$user->password)){
+            return back()->withErrors(['password' => '現在のパスワードが間違っています']);
+        }
+            $user->password = Hash::make($request->input('new_password'));
+
+            $user -> save();
+
+            return redirect()->route('posts.index')->with('success','パスワードを変更しました');
     }
 }

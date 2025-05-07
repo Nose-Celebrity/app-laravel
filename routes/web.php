@@ -1,5 +1,6 @@
 <?php
 
+use App\models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
@@ -13,6 +14,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/index', function () {
     return view('index');
 });
+
+//パスワード変更画面へのルート設定
+Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
+Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update');
+
+
 // 質問一覧のルーティング
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 // 質問投稿へのルーティング
