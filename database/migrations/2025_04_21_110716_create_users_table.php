@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->char('name');
             $table->char('password');
+            $table->string('photo')->nullable()->change();
             $table->tinyInteger('locked_flg')->default(0);
             $table->integer('error_count')->unsigned()->default(0);
             $table->timestamps();
