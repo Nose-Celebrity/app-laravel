@@ -38,6 +38,12 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
     Route::post('/products/{product}/replies', [ReplyController::class, 'store'])->name('replies.store');
 
+    // 編集画面表示
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    // 編集内容を保存
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+    // 削除
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     // ホーム画面
     Route::get('/home', function () {
         return view('home');
