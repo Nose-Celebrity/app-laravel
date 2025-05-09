@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('likes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // プライマリーキー
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // products_tableと関連
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // users_tableと関連
+            $table->timestamp('created_at')->useCurrent(); // 日時をデフォルトで保存
         });
     }
 
