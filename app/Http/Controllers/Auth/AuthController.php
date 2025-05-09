@@ -9,6 +9,9 @@ use App\Http\Requests\LoginFormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordMail;
 
 class AuthController extends Controller // 修正
 {
@@ -96,4 +99,28 @@ public function logout(Request $request)
 
             return redirect()->route('posts.index')->with('success','パスワードを変更しました');
     }
+
+    public function sendVerificationCode(Request $request){
+
+        //バリテーション：メールアドレスの存在をチェック
+        $request->validate(['email' => 'required|email|exists;users,email']);
+
+        //6桁のワンタイムパスワードを生成
+        $code = rand (100000,999999);
+
+        //データベースに保存（すでにある場合は上書き）
+        DB::table('verification_codes')->updateOrInsert(
+            ['email' => $request->email],
+            [
+                'code' => $code,
+                'expires_at' => now()->addMinutes(15),
+                'created_at' => now()
+            ]
+            );
+
+        Mail::to($request->email)->send(new ResetPasswordMail($code));
+        return response()->json(['message' => '認証コードを送信しました']);
+    }
 }
+
+

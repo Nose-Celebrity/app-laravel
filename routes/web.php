@@ -16,6 +16,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
 Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update');
 
+//パスワードを忘れた場合の画面
+Route::post('/verify-code', [AuthController::class, 'verifyCode'])->name('verify.code');
+
 
 //ログイン判定関係
 // ミドルウェア適用（ログイン必須のルート）
