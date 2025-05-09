@@ -16,8 +16,9 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('products.update') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
 
         <label>タイトル：</label><br>
         <input type="text" name="title" value="{{ old('title', $product->title) }}"><br><br>
@@ -29,21 +30,21 @@
         @foreach ($genres as $genre)
             <label>
                 <input type="checkbox" name="genres[]" value="{{ $genre->id }}"
-                {{ in_array($genre->id, $selectedGenres) ? 'checked' : '' }}>
+                    {{ in_array($genre->id, $selectedGenres) ? 'checked' : '' }}>
                 {{ $genre->genre }}
             </label><br>
         @endforeach
         <br>
 
         <label>現在の画像：</label><br>
-        <image src="{{ asset('storage/' . $product->photo) }}" alt="現在の画像" style="max-width: 300px;"><br><br>
+        <img src="{{ asset('storage/' . $product->photo) }}" alt="現在の画像" style="max-width: 300px;"><br><br>
         <label>新しい画像：</label><br>
         <input type="file" name="photo" id="photoInput" accept="image/*"><br><br>
 
         {{-- プレビュー表示用 --}}
         <div id="previewContainer" style="display:none;">
             <p>画像プレビュー：</p>
-            <img id="imagePreview" src="#" alt ="プレビュー" style="max-width: 300px" >
+            <img id="imagePreview" src="#" alt ="プレビュー" style="max-width: 300px">
         </div>
 
 
