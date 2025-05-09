@@ -76,4 +76,49 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
 
     }
+
+    public function edit($id)
+    {
+        $product = Product::with('genres')->findOrFail($id);
+        $genres = Genres::all();
+        $selectedGenres = $product->genres->pluck('id')->toArray();
+        return view('products.edit', compact('product', 'genres', 'selectedGenres'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // バリデーション
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'photo' => 'nullable|image|max:2048',
+            'genres' => 'required|array',
+        ]);
+
+        // 作品の取得
+        $product = Product::findOrFail($id);
+
+        // アップロード画像の保存（新しい画像がある場合）
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('images', 'public');
+            $product->photo = $path;
+        }
+
+        // 作品情報の更新
+        $product->title = $request->title;
+        $product->body = $request->body;
+        $product->save();
+
+        // 中間テーブルのジャンルを更新
+        $product->genres()->sync($request->genres);
+
+        return redirect()->route('products.index')->with('success', '作品が更新されました！');
+    }
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->genres()->detach(); // 中間テーブルのジャンルを削除
+        $product->delete();
+        return redirect()->route('products.index')->with('success', '作品が削除されました！');
+    }
 }
