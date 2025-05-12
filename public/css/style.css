@@ -1,4 +1,14 @@
 /*共通設定用css*/
+header {
+    width: 100%;
+    position: sticky;
+    background: #abfbff;
+    padding: 5px;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+}
+
 body {
     font-family: Arial;
     line-height: 1.6;
@@ -9,7 +19,7 @@ body {
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     max-width: 1280px;
     margin: 20px auto;
     background: #fff;
@@ -38,6 +48,7 @@ h1 {
     background-color:#0056b3;
 }
 
+/*横並びメニュー*/
 .menu{
 	display: flex;
 	flex-wrap:wrap;
@@ -72,6 +83,6 @@ h1 {
     opacity: .8;
 }
 
-.now{
+.now{   /*選択の項目を光らせる機能*/
     background: #ff009d;
 }

@@ -47,19 +47,33 @@
 
         .no-posts {
             text-align: center;
+
             font-size: 1em;
             color: #888;
         }
 
+        button{
+            display: inline-block;
+            margin: 10px 0;
+            border:0;
+            padding: 8px 16px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>質問一覧</h1>
+    <header class="header">
         <ul class="menu" style="list-style: none; padding-left: 0;">
             <li><a class="select now" href="{{ route('posts.index')}}">質問</a></li>
             <li><a class="select " href="{{ route('products.index')}}">作品投稿</a></li>
-            </ul>
+        </ul>
+    </header>
+    <div class="container">
+        <h1>質問一覧</h1>
         <a class = "new-post" href="{{ route('posts.create') }}">新しい書き込み</a>
         @forelse ($posts as $post)
             <div class="post">
