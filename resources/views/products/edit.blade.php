@@ -46,12 +46,9 @@
             <p>画像プレビュー：</p>
             <img id="imagePreview" src="#" alt ="プレビュー" style="max-width: 300px">
         </div>
-
-
-
-
         <button type="submit">更新する</button>
     </form>
+
     <script>
         // 画像プレビュー表示
         document.getElementById('photoInput').addEventListener('change', function(event) {
@@ -72,5 +69,6 @@
             }
         });
     </script>
+
 </body>
 </html>
