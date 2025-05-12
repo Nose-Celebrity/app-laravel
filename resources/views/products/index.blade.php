@@ -23,6 +23,12 @@
     </style>
 </head>
 <body>
+    <header class="header">
+        <ul class="menu" style="list-style: none; padding-left: 0;">
+            <li><a class="select now" href="{{ route('posts.index')}}">質問</a></li>
+            <li><a class="select " href="{{ route('products.index')}}">作品投稿</a></li>
+        </ul>
+    </header>
     <div class="container">
         <h1>作品一覧</h1>
         <ul class="menu" style="list-style: none; padding-left: 0;">
