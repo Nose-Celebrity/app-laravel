@@ -40,9 +40,37 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'answers'));
     }
     public function answer(Post $post)
-{
-    $answers = $post->answers()->latest()->get(); // 回答を取得
-    return view('posts.answer', compact('post', 'answers'));
-}
+    {
+        $answers = $post->answers()->latest()->get(); // 回答を取得
+        return view('posts.answer', compact('post', 'answers'));
+    }
 
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));
+
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
+
+        $post->update([
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('posts.index');
+
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect()->route('posts.index')->with('success', '質問が削除されました。');
+    }
+    
 }
