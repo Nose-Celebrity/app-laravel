@@ -52,6 +52,13 @@ Route::middleware(CheckLogin::class)->group(function () {
         return view('home');
     })->name('home');
 
+    // 質問編集画面
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    // 質問更新処理
+    Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    // 質問削除処理
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
     // ログアウト
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
