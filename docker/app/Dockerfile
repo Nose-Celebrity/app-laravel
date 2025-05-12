@@ -33,21 +33,32 @@ RUN echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME
 COPY composer /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
-#npm依存関係インストール
-COPY package*.json ./ 
+# 作業ディレクトリの設定
+WORKDIR /app
+
+# package.json と package-lock.json を最初にコピーして npm install
+COPY package*.json ./
 RUN npm install
+
+# node_modules の権限を変更 (node_modules が存在する場合のみ)
+RUN if [ -d "/app/node_modules" ]; then chown -R $USER_UID:$USER_GID /app/node_modules; fi
+
+# 作業ディレクトリをコピー
 COPY . .
 
+# エントリーポイントスクリプトの設定
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
-
-CMD ["/usr/local/bin/entrypoint.sh"]
 
 # シェル補完用の設定を追加
 RUN cd /usr/share/bash-completion/completions; \
     composer completion bash > composer
+
+# ユーザーを指定
 USER ${USERNAME}
+
+# PATH環境変数の設定
 ENV PATH="/home/${USERNAME}/.composer/vendor/bin:/home/${USERNAME}/.local/bin:${PATH}"
-WORKDIR /app
 
-
+# 最後にエントリーポイントスクリプトを実行
+CMD ["/usr/local/bin/entrypoint.sh"]
