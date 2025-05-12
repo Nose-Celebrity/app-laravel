@@ -19,16 +19,15 @@
         }
 
         button:hover{
-        background-color: #0056b3;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a class = "browser-back" href="{{ route('posts.index') }}">←</a>
-        <h1>質問を編集する</h1>
-        </h1>
-        <form method="POST" action="{{ route('posts.update') }}">
+        <a class="browser-back" href="{{ route('posts.index') }}">←</a>
+        <h1>質問編集</h1>
+        <form method="POST" action="{{ route('posts.update', $post->id) }}">
             @csrf
             @method('PUT')
             <label>タイトル：</label><br>
@@ -42,4 +41,3 @@
     </div>
 </body>
 </html>
-
