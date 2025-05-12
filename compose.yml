@@ -12,8 +12,7 @@ services:
       - db
 
   app:
-    image: ghcr.io/kd-it/php-devcontainer/app:1728614960
-    #build: docker/app
+    build: docker/app
     env_file:
       - env.txt
     volumes:

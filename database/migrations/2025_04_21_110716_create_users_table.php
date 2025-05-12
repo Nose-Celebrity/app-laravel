@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->char('name');
-            $table->str('password');
+            $table->string('password');
             $table->string('photo')->nullable();
             $table->tinyInteger('locked_flg')->default(0);
             $table->integer('error_count')->unsigned()->default(0);

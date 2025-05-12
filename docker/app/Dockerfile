@@ -10,7 +10,9 @@ COPY --from=composer/composer /usr/bin/composer /usr/bin/composer
 RUN apk add --no-cache \
     git \
     zip \
-    unzip
+    unzip \
+    nodejs \
+    npm
 # Pythonの導入
 RUN apk add --no-cache \
     python3 \
@@ -30,10 +32,22 @@ RUN echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME
 # composerのラッパーをインストール
 COPY composer /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
+
+#npm依存関係インストール
+COPY package*.json ./ 
+RUN npm install
+COPY . .
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+CMD ["/usr/local/bin/entrypoint.sh"]
+
 # シェル補完用の設定を追加
 RUN cd /usr/share/bash-completion/completions; \
     composer completion bash > composer
 USER ${USERNAME}
 ENV PATH="/home/${USERNAME}/.composer/vendor/bin:/home/${USERNAME}/.local/bin:${PATH}"
 WORKDIR /app
+
 
