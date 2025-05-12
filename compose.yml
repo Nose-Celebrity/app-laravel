@@ -12,7 +12,7 @@ services:
       - db
 
   app:
-    build: docker/app
+    image: rnagashiro/laravelpbl:latest
     env_file:
       - env.txt
     volumes:
