@@ -7,6 +7,11 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Middleware\CheckLogin;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordReset;
+use Illuminate\Support\Facades\Password;
 
 //ログイン画面へのルート設定
 Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
@@ -15,6 +20,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 //パスワード変更画面へのルート設定
 Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
 Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update');
+
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+
 
 //ログイン判定関係
 // ミドルウェア適用（ログイン必須のルート）
@@ -58,4 +69,21 @@ Route::middleware(CheckLogin::class)->group(function () {
 
     // ログアウト
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::get('/test-reset-email', function () {
+    // ユーザーを取得（例としてメールアドレスを指定）
+    $user = User::where('mail_address', 'kd1322303@st.kobedenshi.ac.jp')->first();
+
+    if ($user) {
+        // トークンを生成
+        $token = Password::createToken($user);
+
+        // メール送信
+        Mail::to($user->mail_address)->send(new PasswordReset($token));
+
+        return 'メールが送信されました';
+    }
+
+    return 'ユーザーが見つかりませんでした';
 });

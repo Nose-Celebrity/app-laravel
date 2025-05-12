@@ -21,9 +21,11 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->tinyInteger('locked_flg')->default(0);
             $table->integer('error_count')->unsigned()->default(0);
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
 
-            $table->string('mail_address')->nullable();
+            $table->string('mail_address')->nullable()->unique();
             /*
             *$table->string('mail_address')->unique();
             *正規のコード

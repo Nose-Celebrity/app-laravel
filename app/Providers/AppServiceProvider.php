@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Passwords\PasswordBrokerManager;
+use Illuminate\Auth\Passwords\DatabaseTokenRepository;
+use Illuminate\Support\Facades\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,3 +25,5 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 }
+
+
