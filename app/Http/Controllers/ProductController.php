@@ -56,7 +56,8 @@ class ProductController extends Controller
 
         // Product レコード作成
         $product = Product::create([
-            'user_id' => 1, // 仮固定（後で認証ユーザーに変更可能）
+            // 修正版
+            'user_id' => auth()->id(),
             'title' => $request->title,
             'body' => $request->body,
             'date' => now(),
@@ -80,6 +81,12 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::with('genres')->findOrFail($id);
+
+        // 投稿者本人以外は403
+        if ($product->user_id !== auth()->id()) {
+            abort(403, 'この作品は編集できません。');
+        }
+
         $genres = Genres::all();
         $selectedGenres = $product->genres->pluck('id')->toArray();
         return view('products.edit', compact('product', 'genres', 'selectedGenres'));
@@ -87,7 +94,13 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        // バリデーション
+        $product = Product::findOrFail($id);
+
+        // 投稿者本人以外は403
+        if ($product->user_id !== auth()->id()) {
+            abort(403, 'この作品は更新できません。');
+        }
+
         $request->validate([
             'title' => 'required',
             'body' => 'required',
@@ -95,30 +108,33 @@ class ProductController extends Controller
             'genres' => 'required|array',
         ]);
 
-        // 作品の取得
-        $product = Product::findOrFail($id);
-
-        // アップロード画像の保存（新しい画像がある場合）
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('images', 'public');
             $product->photo = $path;
         }
 
-        // 作品情報の更新
         $product->title = $request->title;
         $product->body = $request->body;
         $product->save();
 
-        // 中間テーブルのジャンルを更新
         $product->genres()->sync($request->genres);
 
         return redirect()->route('products.index')->with('success', '作品が更新されました！');
     }
+
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        $product->genres()->detach(); // 中間テーブルのジャンルを削除
+
+        // 投稿者本人以外は403
+        if ($product->user_id !== auth()->id()) {
+            abort(403, 'この作品は削除できません。');
+        }
+
+        $product->genres()->detach();
         $product->delete();
+
         return redirect()->route('products.index')->with('success', '作品が削除されました！');
     }
+
 }
