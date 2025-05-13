@@ -28,7 +28,7 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $request->title,
             'body' => $request->body,
-            'user_id' =>1 //仮auth()->id(), // ログインユーザーを取得
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('posts.index');
@@ -47,12 +47,21 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        // 投稿者以外は403
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'この投稿は編集できません。');
+        }
 
+        return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
+        // 投稿者以外は403
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'この投稿は更新できません。');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
@@ -64,13 +73,18 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('posts.index');
-
     }
 
     public function destroy(Post $post)
     {
+        // 投稿者以外は403
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'この投稿は削除できません。');
+        }
+
         $post->delete();
-        return redirect()->route('posts.index')->with('success', '質問が削除されました。');
+        return redirect()->route('posts.index');
     }
+
     
 }

@@ -84,12 +84,16 @@
                 </p>
                 <!--詳細画面、回答-->
             <a href="{{ route('posts.answer', $post->id) }}" class="new-post">詳細・回答へ</a>
-            <a href="{{ route('posts.edit', $post->id) }}" class="new-post">編集</a>
-            <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;" >
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="new-post" onclick="return confirm('本当に削除しますか？')">削除</button>
-            </form>
+            @if ($post->user_id === auth()->id())
+                <a href="{{ route('posts.edit', $post->id) }}" class="new-post">編集</a>
+
+                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="new-post" onclick="return confirm('本当に削除しますか？')">削除</button>
+                </form>
+            @endif
+
             </div>
             @empty
                 <p class="no-posts">投稿内容がありません。</p>
