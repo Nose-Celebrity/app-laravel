@@ -21,6 +21,10 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
 Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update');
 
+//アカウント新規作成
+Route::get('/new_login', [AuthController::class, 'newlogin'])->name('new.login');
+Route::post('/new_login', [AuthController::class, 'newregistration'])->name('new.registration');
+
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');

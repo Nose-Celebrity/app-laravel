@@ -95,5 +95,18 @@
                 <p class="no-posts">投稿内容がありません。</p>
             @endforelse
     </div>
+
+    <!-- アカウント削除ボタン -->
+    <button onclick="confirmDelete()" class="new-post" style="background-color: #dc3545;">
+        アカウント削除
+    </button>
+
+    <script>
+        function confirmDelete() {
+        if (confirm('本当にアカウントを削除しますか？この操作は取り消せません。')) {
+            document.getElementById('delete-account-form').submit();
+        }
+    }
+    </script>
 </body>
 </html>
