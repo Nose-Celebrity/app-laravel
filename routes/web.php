@@ -43,6 +43,7 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/users/{id}/profile', [ProfileController::class, 'show'])->name('profile.show');
 
     // 質問機能
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
