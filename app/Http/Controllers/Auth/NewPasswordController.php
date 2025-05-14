@@ -1,40 +1,49 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 
 class NewPasswordController extends Controller
 {
-public function store(Request $request)
-{
-    $request->validate([
-        'token' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
-    ]);
+    /**
+     * パスワードリセットフォームを表示
+     */
+    public function create($token)
+    {
+        // トークンが存在する場合、リセットフォームを表示
+        return view('auth.reset-password', [
+            'token' => $token,
+            'email' => request()->query('email') // クエリパラメータからemailを取得
+        ]);
+    }
 
-    $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
-        function ($user) use ($request) {
-            $user->forceFill([
-                'password' => Hash::make($request->password),
-            ])->save();
-        }
-    );
+    /**
+     * パスワードを更新する
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
 
-    return $status === Password::RESET_LINK_SENT
-    ? back()->with('status', __($status))
-    : back()->withErrors(['mail_address' => __($status)]);
-}
+        // パスワードリセット処理
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                ])->save();
+            }
+        );
 
+        // 成功した場合、または失敗した場合のリダイレクト処理
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('status', __('Your password has been reset!'))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
 }

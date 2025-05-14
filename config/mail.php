@@ -48,6 +48,9 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
+        'log' => [
+            'transport' => 'log', // ログに出力する設定
+        ],
 
         'ses' => [
             'transport' => 'ses',
@@ -68,11 +71,6 @@ return [
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
-        ],
-
-        'log' => [
-            'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL'),
         ],
 
         'array' => [

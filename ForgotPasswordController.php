@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
 
-class PasswordResetLinkController extends Controller
+class ForgotPasswordController extends Controller
 {
     /**
      * パスワードリセットフォームを表示
@@ -28,9 +28,9 @@ class PasswordResetLinkController extends Controller
         ]);
 
         // パスワードリセットリンクの送信
-    $status = Password::sendResetLink([
+        $status = Password::sendResetLink([
         'email' => $request->input('mail_address')
-    ]);
+        ]);
 
         // ログ出力（リセットリンク送信の状態をログに記録）
         Log::info('Password reset link status: ' . $status);

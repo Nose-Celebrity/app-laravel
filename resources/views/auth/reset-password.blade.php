@@ -3,18 +3,25 @@
 @section('title', 'パスワード再設定')
 
 @section('content')
-<form method="POST" action="{{ route('password.update') }}">
-    @csrf
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
 
-    <input type="hidden" name="token" value="{{ $request->route('token') }}">
-    <input type="hidden" name="email" value="{{ $request->email }}">
+    <form method="POST" action="{{ route('password.update') }}">
+        @csrf
 
-    <label for="password">新しいパスワード</label>
-    <input id="password" type="password" name="password" required>
+        <!-- トークンをhiddenフィールドとして送信 -->
+        <input type="hidden" name="token" value="{{ $token }}">
+        <input type="hidden" name="email" value="{{ $email }}">
 
-    <label for="password_confirmation">新しいパスワード（確認）</label>
-    <input id="password_confirmation" type="password" name="password_confirmation" required>
+        <label for="password">新しいパスワード</label>
+        <input id="password" type="password" name="password" required>
 
-    <button type="submit">パスワードを更新</button>
-</form>
+        <label for="password_confirmation">新しいパスワード（確認）</label>
+        <input id="password_confirmation" type="password" name="password_confirmation" required>
+
+        <button type="submit">パスワードを更新</button>
+    </form>
 @endsection
