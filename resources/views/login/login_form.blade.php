@@ -7,7 +7,7 @@
     <meta name='viewport'
     content='width=device-width,
     initial-scale=1.0'>
-    <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/login.css')}}">
 
     <title>ログインフォーム</title>
 
@@ -37,12 +37,16 @@
             </div>
             @endif
 
-            <label for="inputEmail" class="sr-only">メールアドレス</label>
-            <input type="email" id="inputEmail" name="mail_address" class="form-control" placeholder="Email address" required autofocus>
-            <label for="inputPassword" class="sr-only">パスワード</label>
+            <div class=input_container>
+                <label for="inputEmail" class="sr-olny">メールアドレス</label><br>
+                <input type="email" id="inputEmail" name="mail_address" class="form-control" placeholder="Email address" required autofocus>
+            </div>
+            <div class=input_container>
+            <label for="inputPassword" class="sr-only">パスワード</label><br>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+            </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block sign_in" type="submit">Sign in</button>
 
             <a href="{{route('new.login')}}" class="btn btn-link mt-3">新規登録</a>
 

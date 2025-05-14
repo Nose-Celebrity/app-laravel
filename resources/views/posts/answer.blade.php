@@ -103,9 +103,19 @@
         <p class="body">{{ $answer->body }}</p>
         <p class="user">{{ $answer->user->name ?? '不明なユーザー' }}</p>
         <p class="created-at">{{ $answer->created_at->format('Y年m月d日 H:i') }}</p>
+
+        <div>
+        <p>{{ $answer->body }}</p>
+        <p>👍 {{ $answer->getLikesCount() }}件のいいね</p>
+
+        <form action="{{ route('answers.toggleLike', $answer->id) }}" method="POST">
+            @csrf
+            <button type="submit">
+                {{ $answer->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
+            </button>
+        </form>
     </div>
 @endforeach
-
         </div>
         <!-- 回答フォーム -->
 <div class="answer-form">
