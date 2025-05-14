@@ -26,10 +26,18 @@ Route::post('/change-password', [AuthController::class, 'updatepassword'])->name
 Route::get('/new_login', [AuthController::class, 'newlogin'])->name('new.login');
 Route::post('/new_login', [AuthController::class, 'newregistration'])->name('new.registration');
 
+// パスワードリセットリクエスト表示
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+
+// パスワードリセットリンク送信
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+// トークン付きパスワードリセットフォーム表示
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+
+// パスワードの再設定
 Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+
 
 
 //ログイン判定関係
