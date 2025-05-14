@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordReset;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\ProfileController;
 
 //ログイン画面へのルート設定
 Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
@@ -37,6 +38,11 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::get('/index', function () {
         return view('index');
     });
+
+    // プロフィール機能
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // 質問機能
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
