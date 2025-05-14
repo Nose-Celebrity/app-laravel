@@ -70,6 +70,8 @@
         <ul class="menu" style="list-style: none; padding-left: 0;">
             <li><a class="select now" href="{{ route('posts.index')}}">質問</a></li>
             <li><a class="select " href="{{ route('products.index')}}">作品投稿</a></li>
+            <!-- 自分のプロフィール -->
+            <li><a class="select" href="{{ route('profile.index') }}">マイプロフィール</a></li>
         </ul>
     </header>
     <div class="container">
@@ -77,27 +79,43 @@
         <a class = "new-post" href="{{ route('posts.create') }}">新しい書き込み</a>
         @forelse ($posts as $post)
             <div class="post">
+
+                <!-- 投稿者のプロフィール画像 -->
+                @php
+                    $profileImage = $post->user && $post->user->photo
+                        ? asset('storage/' . $post->user->photo)
+                        : asset('image/default_profile.png');
+                @endphp
+                <a href="{{ route('profile.show', $post->user->id) }}">
+                    <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:50px; height:50px; object-fit:cover; border-radius:50%; float:left; margin-right:10px;">
+                </a>
+
+                <!-- タイトル・本文 -->
                 <h3>{{ $post->title }}</h3>
-                <p class = "body">{{ $post->body }}</p>
-                <p class = "user">
+                <p class="body">{{ $post->body }}</p>
+
+                <!-- 投稿者情報 -->
+                <p class="user">
                     {{ $post->user->name ?? '不明なユーザー' }}（{{ $post->created_at->format('Y年m月d日 H:i') }}）
                 </p>
-                <!--詳細画面、回答-->
-            <a href="{{ route('posts.answer', $post->id) }}" class="new-post">詳細・回答へ</a>
-            @if ($post->user_id === auth()->id())
-                <a href="{{ route('posts.edit', $post->id) }}" class="new-post">編集</a>
 
-                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="new-post" onclick="return confirm('本当に削除しますか？')">削除</button>
-                </form>
-            @endif
+                <!-- 詳細・編集・削除 -->
+                <a href="{{ route('posts.answer', $post->id) }}" class="new-post">詳細・回答へ</a>
+                @if ($post->user_id === auth()->id())
+                    <a href="{{ route('posts.edit', $post->id) }}" class="new-post">編集</a>
+
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="new-post" onclick="return confirm('本当に削除しますか？')">削除</button>
+                    </form>
+                @endif
 
             </div>
-            @empty
-                <p class="no-posts">投稿内容がありません。</p>
-            @endforelse
+        @empty
+            <p class="no-posts">投稿内容がありません。</p>
+        @endforelse
+
     </div>
 
     <!-- アカウント削除ボタン -->
