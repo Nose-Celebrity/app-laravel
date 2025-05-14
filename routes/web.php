@@ -96,4 +96,9 @@ Route::get('/test-reset-email', function () {
     }
 
     return 'ユーザーが見つかりませんでした';
-});
+}
+
+);
+
+Route::post('/answers/{answer}/like', [AnswerController::class, 'toggleLike'])->name('answers.toggleLike');
+Route::post('/answers/{id}/like', [AnswerController::class, 'like'])->name('answers.like');
