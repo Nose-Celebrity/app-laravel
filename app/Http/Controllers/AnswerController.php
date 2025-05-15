@@ -78,5 +78,17 @@ class AnswerController extends Controller
 
         return redirect()->route('posts.answer', $post);
     }
+public function toggleLike($id)
+{
+    $answer = Answer::findOrFail($id);
+    $userId = session('user_id');
 
+    if ($answer->hasLiked($userId)) {
+        $answer->unlike($userId);
+    } else {
+        $answer->like($userId);
+    }
+
+    return redirect()->back();
+}
 }
