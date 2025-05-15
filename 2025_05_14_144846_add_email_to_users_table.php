@@ -1,22 +1,22 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up()
+    public function up()
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('email')->unique()->nullable()->after('mail_address');
         });
 
-         // 既存のユーザーの 'email' を 'mail_address' で埋める
-        DB::table('users')->update(['email' => DB::raw('mail_address')]);
+        // mail_address を email にコピー
+        User::all()->each(function ($user) {
+            $user->email = $user->mail_address;
+            $user->save();
+        });
     }
 
     public function down()
@@ -25,5 +25,5 @@ return new class extends Migration
             $table->dropColumn('email');
         });
     }
-
 };
+

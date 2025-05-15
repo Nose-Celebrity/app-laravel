@@ -25,7 +25,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->string('mail_address')->nullable()->unique();
+            $table->string('mail_address')->unique();
+            $table->string('email')->unique()->nullable();
             /*
             *$table->string('mail_address')->unique();
             *正規のコード

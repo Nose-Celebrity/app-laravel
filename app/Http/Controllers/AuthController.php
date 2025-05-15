@@ -120,6 +120,7 @@ public function logout(Request $request)
         $user = new User();
         $user->name = $request->input('name');
         $user->mail_address = $request->input('mail_address');
+        $user->email = $request->input('mail_address');
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
