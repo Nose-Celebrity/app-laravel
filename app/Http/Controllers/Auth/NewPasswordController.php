@@ -43,7 +43,7 @@ class NewPasswordController extends Controller
 
         // 成功した場合、または失敗した場合のリダイレクト処理
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __('Your password has been reset!'))
+            ? redirect()->route('showLogin')->with('status', __('Your password has been reset!'))
             : back()->withErrors(['email' => [__($status)]]);
     }
 }

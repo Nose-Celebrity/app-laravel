@@ -37,6 +37,10 @@ class AuthController extends Controller // 修正
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
 
+            // デバッグ用: ログインユーザー情報を確認
+        // dd(Auth::user());
+
+
             //成功したらホーム画面に移動
             return redirect()->route('posts.index')->with('success','ログイン成功しました');
             //            return redirect()->route('posts.index')->with('success','ログイン成功しました');
@@ -99,6 +103,53 @@ public function logout(Request $request)
 
             return redirect()->route('posts.index')->with('success','パスワードを変更しました');
     }
+
+    public function newlogin(Request $request)
+    {
+        //アカウント新規登録フォームへ移動
+        return view('login.new_login');
+    }
+
+    public function newregistration(Request $request)
+    {
+        //フォーム内容の確認
+        $request->validate([
+            'name' => 'required',
+            'mail_address' => 'required|email|unique:users,mail_address',
+            'password' => 'required',
+            'new_password' => 'required|same:password',
+            'email' => 'required|email|unique:users,mail_address',
+        ]);
+
+        //アカウント作成
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->mail_address = $request->input('mail_address');
+        $user->password = Hash::make($request->input('password'));
+        $user->email = $request->input('mail_address');
+        $user->save();
+
+        return redirect()->route('posts.index')->with('success','アカウントの作成が完了しました');
+
+    }
+
+    public function delete(Request $request)
+    {
+        //アカウント削除
+        $user = Auth::user();
+
+        if (!$user) {
+        return redirect()->route('showLogin')->with('danger', 'ユーザーが見つかりませんでした');
+        }
+
+        Auth::logout();
+        $user->delete();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('showLogin')->with('danger', 'アカウントを削除しました');
+    }
+
 }
 
 

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->string('mail_address')->nullable()->unique();
+            $table->string('email')->nullable()->unique();
             /*
             *$table->string('mail_address')->unique();
             *正規のコード
