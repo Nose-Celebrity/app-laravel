@@ -8,60 +8,16 @@ use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-
-
-
-
-    /**
-     * Display the specified resource.
-     */
-
-
-
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
     public function store(Request $request, Post $post)
     {
         $request->validate([
@@ -72,23 +28,74 @@ class AnswerController extends Controller
         Answer::create([
             'title' => $request->title,
             'body' => $request->body,
-            'user_id' =>1, //仮auth()->id(),
+            'user_id' => auth()->id(),
             'posts_id' => $post->id,
         ]);
 
         return redirect()->route('posts.answer', $post);
     }
-public function toggleLike($id)
-{
-    $answer = Answer::findOrFail($id);
-    $userId = session('user_id');
 
-    if ($answer->hasLiked($userId)) {
-        $answer->unlike($userId);
-    } else {
-        $answer->like($userId);
+    public function show()
+    {
+        //
     }
 
-    return redirect()->back();
-}
+    public function edit(Answer $answer)
+    {
+        // 本人確認
+        if ($answer->user_id !== auth()->id()) {
+            abort(403, 'この回答は編集できません。');
+        }
+
+        return view('posts.answers_edit', compact('answer'));
+    }
+
+    public function update(Request $request, Answer $answer)
+    {
+        // 本人確認
+        if ($answer->user_id !== auth()->id()) {
+            abort(403, 'この回答は更新できません。');
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
+
+        $answer->update([
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('posts.answer', $answer->posts_id)
+                        ->with('success', '回答が更新されました！');
+    }
+
+    public function destroy(Answer $answer)
+    {
+        // 本人確認
+        if ($answer->user_id !== auth()->id()) {
+            abort(403, 'この回答は削除できません。');
+        }
+
+        $postId = $answer->posts_id;
+        $answer->delete();
+
+        return redirect()->route('posts.answer', $postId)
+                        ->with('success', '回答が削除されました！');
+    }
+
+    public function toggleLike($id)
+    {
+        $answer = Answer::findOrFail($id);
+        $userId = session('user_id');
+
+        if ($answer->hasLiked($userId)) {
+            $answer->unlike($userId);
+        } else {
+            $answer->like($userId);
+        }
+
+        return redirect()->back()->withFragment('answer-' . $id);
+    }
 }

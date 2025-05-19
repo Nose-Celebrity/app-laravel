@@ -103,9 +103,15 @@
         <p class="body">{{ $answer->body }}</p>
         <p class="user">{{ $answer->user->name ?? '不明なユーザー' }}</p>
         <p class="created-at">{{ $answer->created_at->format('Y年m月d日 H:i') }}</p>
-
-        <div>
-        <p>{{ $answer->body }}</p>
+        @if($answer->user_id === auth()->id())
+           <a href="{{ route('answers.edit', $answer->id) }}" class="back-link">編集</a>
+              <form action="{{ route('answers.destroy', $answer->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="back-link" onclick="return confirm('本当に削除しますか？')">削除</button>
+            </form>
+        @endif
+    <div>
         <p>👍 {{ $answer->getLikesCount() }}件のいいね</p>
 
         <form action="{{ route('answers.toggleLike', $answer->id) }}" method="POST">
