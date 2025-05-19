@@ -8,4 +8,17 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: 'localhost',
+        port: 5174,
+        strictPort: true,
+        hmr: {
+            host: 'localhost',
+            port: 5174,
+            strictPort: true,
+        },
+        headers: {
+            "content-security-policy" : "script-src 'self'  'unsafe-eval'",
+        },
+    }
 });

@@ -24,6 +24,7 @@ class UsersTableSeeder extends Seeder
                 'error_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'email' => 'kd1322303@st.kobedenshi.ac.jp',
             ],
             [
                 'name' => 'Hanako Tanaka',
@@ -34,6 +35,7 @@ class UsersTableSeeder extends Seeder
                 'error_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'email' => 'hanako@example.com',
             ],
         ]);
     }
