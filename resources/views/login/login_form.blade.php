@@ -50,7 +50,7 @@
 
             <a href="{{route('new.login')}}" class="btn btn-link mt-3">新規登録</a>
 
-            <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードを変更する</a>
+            <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードをお忘れの場合</a>
 
         </form>
 

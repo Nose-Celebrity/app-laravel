@@ -76,7 +76,7 @@ public function logout(Request $request)
     public function chlogin(Request $request)
     {
         //パスワード変更フォームへ移動
-        return view('login.change_password');
+        return view('auth.forgot-password');
     }
 
     public function updatePassword(Request $request)
