@@ -86,16 +86,18 @@ class AnswerController extends Controller
     }
 
     public function toggleLike($id)
-    {
-        $answer = Answer::findOrFail($id);
-        $userId = session('user_id');
+{
+    $answer = Answer::findOrFail($id);
+    $userId = session('user_id');
 
-        if ($answer->hasLiked($userId)) {
-            $answer->unlike($userId);
-        } else {
-            $answer->like($userId);
-        }
-
-        return redirect()->back()->withFragment('answer-' . $id);
+    if ($answer->hasLiked($userId)) {
+        $answer->unlike($userId);
+    } else {
+        $answer->like($userId);
     }
+
+    return redirect()->back()->withFragment('answer-' . $id);
+
+}
+
 }
