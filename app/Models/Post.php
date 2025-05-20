@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Redis;
 
 class Post extends Model
 {
@@ -19,4 +19,26 @@ class Post extends Model
     {
         return $this->hasMany(Answer::class, 'posts_id');
     }
+
+    public function hasLiked($userId)
+{
+    return Redis::sismember('post:' . $this->id . ':likes_users', $userId);
+}
+
+public function like($userId)
+{
+    Redis::sadd('post:' . $this->id . ':likes_users', $userId);
+}
+
+public function unlike($userId)
+{
+    Redis::srem('post:' . $this->id . ':likes_users', $userId);
+}
+
+public function getLikesCount()
+{
+    return Redis::scard('post:' . $this->id . ':likes_users');
+}
+
+
 }

@@ -98,25 +98,40 @@
             <p>{{ $post->body }}</p>
             <p class="user">{{ $post->user->name ?? '不明なユーザー' }}</p>
             <p class="created-at">{{ $post->created_at->format('Y年m月d日 H:i') }}</p>
+            <p>👍 {{ $post->getLikesCount() }}件のいいね</p>
+    <form action="{{ route('posts.toggleLike', $post->id) }}" method="POST">
+        @csrf
+        <button type="submit">
+            {{ $post->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
+        </button>
+    </form>
         </div>
 
         <!-- 回答一覧表示 -->
         <div class="answer-section">
             <h3>回答一覧</h3>
             @foreach ($answers as $answer)
-    <div class="answer" id="answer-{{ $answer->id }}">
-    <h4 class="title">{{ $answer->title }}</h4>
-    <p class="body">{{ $answer->body }}</p>
-    <p class="user">{{ $answer->user->name ?? '不明なユーザー' }}</p>
-    <p class="created-at">{{ $answer->created_at->format('Y年m月d日 H:i') }}</p>
-    <p>👍 {{ $answer->getLikesCount() }}件のいいね</p>
-    <form action="{{ route('answers.toggleLike', $answer->id) }}" method="POST">
-        @csrf
-        <button type="submit">
-            {{ $answer->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
-        </button>
-    </form>
-</div>
+            <div class="answer" id="answer-{{ $answer->id }}">
+            <h4 class="title">{{ $answer->title }}</h4>
+            <p class="body">{{ $answer->body }}</p>
+            <p class="user">{{ $answer->user->name ?? '不明なユーザー' }}</p>
+            <p class="created-at">{{ $answer->created_at->format('Y年m月d日 H:i') }}</p>
+            @if ($answer->user_id === auth()->id())
+                <a href="{{ route('answers.edit', $answer->id) }}" class="back-link">編集</a>
+                <form action="{{ route('answers.destroy', $answer->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="back-link" onclick="return confirm('本当に削除しますか？')">削除</button>
+                </form>
+            @endif
+            <p>👍 {{ $answer->getLikesCount() }}件のいいね</p>
+            <form action="{{ route('answers.toggleLike', $answer->id) }}" method="POST">
+                @csrf
+                <button type="submit">
+                    {{ $answer->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
+                </button>
+            </form>
+        </div>
 @endforeach
         <!-- 回答フォーム -->
 <div class="answer-form">
