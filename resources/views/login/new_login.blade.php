@@ -32,10 +32,10 @@
         @endif
 
         <label for="currentmailaddress">ユーザネーム</label>
-        <input type="name" id="currentname" name="name" class="form-control" placeholder="ユーザネーム" required>
+        <input type="text" id="currentname" name="name" class="form-control" placeholder="ユーザネーム" required>
 
-        <label for="currentmailaddress">メールアドレス</label>
-        <input type="email" id="currentmailaddress" name="mail_address" class="form-control" placeholder="メールアドレス" required>
+        <label for="email">メールアドレス</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="メールアドレス" required>
 
         <label for="currentPassword">パスワード</label>
         <input type="password" id="currentPassword" name="password" class="form-control" placeholder="パスワード" required>

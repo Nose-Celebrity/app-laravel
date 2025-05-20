@@ -31,8 +31,8 @@
         @endif
 
 
-        <label for="currentmailaddress">変更したいIDのメールアドレス</label>
-        <input type="mailaddress" id="currentmailaddress" name="mailaddress" class="form-control" placeholder="メールアドレス" required>
+        <label for="email">変更したいIDのメールアドレス</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="メールアドレス" required>
 
         <label for="currentPassword">現在のパスワード</label>
         <input type="password" id="currentPassword" name="password" class="form-control" placeholder="現在のパスワード" required>

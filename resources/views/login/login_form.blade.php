@@ -39,7 +39,7 @@
 
             <div class=input_container>
                 <label for="inputEmail" class="sr-olny">メールアドレス</label><br>
-                <input type="email" id="inputEmail" name="mail_address" class="form-control" placeholder="Email address" required autofocus>
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <div class=input_container>
             <label for="inputPassword" class="sr-only">パスワード</label><br>
@@ -50,7 +50,7 @@
 
             <a href="{{route('new.login')}}" class="btn btn-link mt-3">新規登録</a>
 
-            <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードを変更する</a>
+            <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードをお忘れの場合</a>
 
         </form>
 

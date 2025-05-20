@@ -25,18 +25,14 @@
 <body>
     <header class="header">
         <ul class="menu" style="list-style: none; padding-left: 0;">
-            <li><a class="select now" href="{{ route('posts.index')}}">質問</a></li>
-            <li><a class="select " href="{{ route('products.index')}}">作品投稿</a></li>
+            <li><a class="select " href="{{ route('posts.index')}}">質問</a></li>
+            <li><a class="select now" href="{{ route('products.index')}}">作品投稿</a></li>
             <!-- 自分のプロフィール -->
             <li><a class="select" href="{{ route('profile.index') }}">マイプロフィール</a></li>
         </ul>
     </header>
     <div class="container">
         <h1>作品一覧</h1>
-        <ul class="menu" style="list-style: none; padding-left: 0;">
-            <li><a class="select " href="{{ route('posts.index')}}">質問</a></li>
-            <li><a class="select now" href="{{ route('products.index')}}">作品投稿</a></li>
-            </ul>
         <!-- 検索フォーム -->
         <form method="GET" action="{{ route('products.index') }}">
             <input type="text" name="keyword" value="{{ request('keyword')}}" placeholder="検索内容を入力">

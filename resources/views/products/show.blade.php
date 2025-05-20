@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $product->title }} - 詳細</title>
+        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+
     <style>
         .container {
             width: 90%;
@@ -42,6 +44,7 @@
 </head>
 <body>
     <div class="container">
+        <a class="browser-back" href="{{ route('products.index') }}">←</a>
         <!-- 作品詳細 -->
         <div class="card">
             <img src="{{ asset('storage/' . $product->photo) }}" alt="作品の画像">

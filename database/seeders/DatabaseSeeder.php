@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Genres;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             PostsTableSeeder::class,
             AnswersTableSeeder::class,
+            GenresSeeder::class,
         ]);
     }
 }

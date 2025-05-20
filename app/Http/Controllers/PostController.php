@@ -85,6 +85,17 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index');
     }
+    public function toggleLike(Post $post)
+{
+    $userId = session('user_id');
 
-    
+    if ($post->hasLiked($userId)) {
+        $post->unlike($userId);
+    } else {
+        $post->like($userId);
+    }
+
+    return redirect()->back()->withFragment('answer-' . $post);
+}
+
 }

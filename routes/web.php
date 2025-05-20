@@ -26,6 +26,9 @@ Route::post('/change-password', [AuthController::class, 'updatepassword'])->name
 Route::get('/new_login', [AuthController::class, 'newlogin'])->name('new.login');
 Route::post('/new_login', [AuthController::class, 'newregistration'])->name('new.registration');
 
+// ユーザーのアカウント削除ルート
+Route::delete('/user/delete', [AuthController::class, 'delete'])->name('user.delete');
+
 // パスワードリセットリクエスト表示
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
 
@@ -73,6 +76,10 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
     Route::post('/products/{product}/replies', [ReplyController::class, 'store'])->name('replies.store');
+    // 回答編集・更新・削除ルート
+    Route::get('/answers/{answer}/edit', [AnswerController::class, 'edit'])->name('answers.edit');
+    Route::put('/answers/{answer}', [AnswerController::class, 'update'])->name('answers.update');
+    Route::delete('/answers/{answer}', [AnswerController::class, 'destroy'])->name('answers.destroy');
 
     // 編集画面表示
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
@@ -108,6 +115,8 @@ Route::get('/test-reset-email', function () {
 }
 
 );
-
+//いいね機能
 Route::post('/answers/{answer}/like', [AnswerController::class, 'toggleLike'])->name('answers.toggleLike');
 Route::post('/answers/{id}/like', [AnswerController::class, 'like'])->name('answers.like');
+Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');
+

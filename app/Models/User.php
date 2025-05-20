@@ -60,7 +60,7 @@ class User extends Authenticatable
     }
         public function getAuthIdentifierName()
     {
-        return 'mail_address';
+        return 'id';
     }
     // mail_address を email として参照できるようにする
     public function getEmailAttribute()
