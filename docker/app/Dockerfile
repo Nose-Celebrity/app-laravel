@@ -1,4 +1,5 @@
 FROM php:fpm-alpine
+
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -6,39 +7,47 @@ ARG USER_GID=$USER_UID
 # composerの移植
 COPY --from=composer/composer /usr/bin/composer /usr/bin/composer
 
-# 必須と思われるPHP拡張の導入
+# 必須と思われるPHP拡張と開発系ツールの導入
 RUN apk add --no-cache \
     git \
     zip \
     unzip \
     nodejs \
-    npm
-# Pythonの導入
-RUN apk add --no-cache \
+    npm \
     python3 \
-    py3-pip
-RUN apk add --no-cache \
-    github-cli make sudo
-# RUN pecl install xdebug \
-#     && docker-php-ext-enable xdebug
+    py3-pip \
+    github-cli \
+    make \
+    sudo \
+    bash \
+    bash-completion \
+    autoconf \
+    gcc \
+    g++ \
+    make \
+    linux-headers \
+    $PHPIZE_DEPS
+
+# PHP拡張
 RUN docker-php-ext-install mysqli pdo_mysql
-# やはりbashは最低限必要ですね
-RUN apk add --no-cache bash bash-completion
-# 作業用ユーザーの作成、シェルは/bin/sh
+
+# redis 拡張（root権限で）
+RUN pecl install redis && docker-php-ext-enable redis
+
+# 作業用ユーザーの作成、シェルは/bin/bash
 RUN addgroup -g $USER_GID $USERNAME \
-    && adduser -u $USER_UID -G $USERNAME -s /bin/bash -D $USERNAME
-# $USERNAMEにはsudo権限を付与
-RUN echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME
+    && adduser -u $USER_UID -G $USERNAME -s /bin/bash -D $USERNAME \
+    && echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME
+
 # composerのラッパーをインストール
 COPY composer /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
 # 作業ディレクトリの設定
 WORKDIR /app
-
 # package.json と package-lock.json を最初にコピーして npm install
 COPY package*.json ./
-RUN npm install
+RUN npm install --include=dev
 
 # node_modules の権限を変更 (node_modules が存在する場合のみ)
 RUN if [ -d "/app/node_modules" ]; then chown -R $USER_UID:$USER_GID /app/node_modules; fi
