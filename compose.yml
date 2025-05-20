@@ -15,7 +15,7 @@ services:
 
   app:
     image: ghcr.io/kd-it/php-devcontainer/app:1728614960
-    #build: docker/app
+    # build: docker/app
     env_file:
       - env.txt
     volumes:
@@ -46,8 +46,24 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
     networks:
       - app-network
+  node:
+    image: node:20-alpine  # 任意の Node.js バージョン
+    container_name: node-app
+    working_dir: /app
+    volumes:
+      - .:/app:cached
+      - node_modules:/app/node_modules
+    tty: true
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - app
+    networks:
+      - app-network
+
 
 networks:
   app-network:
@@ -56,4 +72,6 @@ networks:
 volumes:
   db_data:
   vendor:
+  node_modules:
+  redis_data:
 
