@@ -39,7 +39,7 @@
 
             <div class=input_container>
                 <label for="inputEmail" class="sr-olny">メールアドレス</label><br>
-                <input type="email" id="inputEmail" name="mail_address" class="form-control" placeholder="Email address" required autofocus>
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <div class=input_container>
             <label for="inputPassword" class="sr-only">パスワード</label><br>

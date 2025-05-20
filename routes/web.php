@@ -26,6 +26,9 @@ Route::post('/change-password', [AuthController::class, 'updatepassword'])->name
 Route::get('/new_login', [AuthController::class, 'newlogin'])->name('new.login');
 Route::post('/new_login', [AuthController::class, 'newregistration'])->name('new.registration');
 
+// ユーザーのアカウント削除ルート
+Route::delete('/user/delete', [AuthController::class, 'delete'])->name('user.delete');
+
 // パスワードリセットリクエスト表示
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
 

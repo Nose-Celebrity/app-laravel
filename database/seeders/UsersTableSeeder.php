@@ -17,7 +17,6 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Taro Yamada',
-                'mail_address' => 'kd1322303@st.kobedenshi.ac.jp',
                 'password' => Hash::make('password123'),
                 'photo' => null,
                 'locked_flg' => 0,
@@ -28,7 +27,6 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Hanako Tanaka',
-                'mail_address' => 'hanako@example.com',
                 'password' => Hash::make('password456'),
                 'photo' => null,
                 'locked_flg' => 0,

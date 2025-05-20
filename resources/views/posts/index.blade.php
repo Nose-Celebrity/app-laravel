@@ -118,6 +118,11 @@
 
     </div>
 
+    <form id="delete-account-form" method="POST" action="{{route('user.delete')}}" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
     <!-- アカウント削除ボタン -->
     <button onclick="confirmDelete()" class="new-post" style="background-color: #dc3545;">
         アカウント削除

@@ -26,7 +26,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'mail_address' => $this->faker->safeEmail,
+            'email' => $this->faker->safeEmail,
             'password' => static::$password ??= Hash::make('password'),
         ];
     }
