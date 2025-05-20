@@ -18,9 +18,9 @@ class ProductSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
             Product::create([
                 'user_id' => 1, // 仮のユーザーID（usersテーブルに1人登録しておいてね）
-                'title' => '制作物タイトル ' . $i,
-                'body' => 'これは制作物 ' . $i . ' の説明文です。',
-                'photo' => 'https://via.placeholder.com/150',
+                'title' => 'Debatemate' . $i,
+                'body' => 'OpenAIのAPIを用い、議論の進行やまとめを行ったり、発言内容の要約やアドバイスをしてくれるSNSです。 ' . $i . ' の説明文です。',
+                'photo' => 'images/debatemate1.png',
                 'date' => now()->toDateString(),
             ]);
         }
