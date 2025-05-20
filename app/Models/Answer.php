@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\Request;
 
 class Answer extends Model
 {
@@ -45,5 +46,18 @@ public function getLikesCount()
 {
     return Redis::scard('answer:' . $this->id . ':likes_users');
 }
+public function toggleLike(Request $request, Answer $answer)
+    {
+        $userId = session('user_id'); // ユーザーIDをセッションから取得
 
+        if ($answer->hasLiked($userId)) {
+            // いいねを解除
+            $answer->unlike($userId);
+        } else {
+            // いいねを追加
+            $answer->like($userId);
+        }
+
+        return redirect()->back();
+    }
 }

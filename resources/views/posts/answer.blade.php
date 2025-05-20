@@ -98,6 +98,13 @@
             <p>{{ $post->body }}</p>
             <p class="user">{{ $post->user->name ?? '不明なユーザー' }}</p>
             <p class="created-at">{{ $post->created_at->format('Y年m月d日 H:i') }}</p>
+            <p>👍 {{ $post->getLikesCount() }}件のいいね</p>
+    <form action="{{ route('posts.toggleLike', $post->id) }}" method="POST">
+        @csrf
+        <button type="submit">
+            {{ $post->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
+        </button>
+    </form>
         </div>
 
         <!-- 回答一覧表示 -->
