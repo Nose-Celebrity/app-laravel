@@ -10,6 +10,8 @@ services:
     depends_on:
       - app
       - db
+    networks:
+      - app-network
 
   app:
     image: ghcr.io/kd-it/php-devcontainer/app:1728614960
@@ -19,6 +21,8 @@ services:
     volumes:
       - .:/app:cached
       - vendor:/app/vendor
+    networks:
+      - app-network
 
   db:
     image: ghcr.io/densuke/mysql:main
@@ -34,6 +38,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+    networks:
+      - app-network
+
   redis:
     image: redis:alpine
     container_name: redis
