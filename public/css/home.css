@@ -1,0 +1,423 @@
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #007BFF;
+    color: white;
+}
+
+.site-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    background-color: #007BFF;
+    color: white;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 32px !important; /* アイコンと検索ボックスの隙間 */
+}
+
+.search-form {
+    margin: 0;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-input {
+    width: 200px;
+    padding: 6px 30px 6px 14px;
+    border: none;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    background-color: white;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* === ユーザーメニュー === */
+.user-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.user-menu-wrapper {
+    position: relative;
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 48px;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    list-style: none;
+    z-index: 100;
+    width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.user-menu li {
+    margin-bottom: 10px;
+}
+
+.user-menu li:last-child {
+    margin-bottom: 0;
+}
+
+.user-menu.show {
+    display: block;
+}
+
+.user-menu button,
+.user-menu a {
+    background: none;
+    border: none;
+    color: #007BFF;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+    padding: 5px 0;
+}
+
+.user-menu button:hover,
+.user-menu a:hover {
+    color: #0056b3;
+}
+
+/* === メインレイアウト === */
+.main-content {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+}
+
+/* === カラム共通 === */
+.column {
+    flex: 1;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+
+/* === 質問/作品カード === */
+.card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    height: 170px; /* ← 高さを統一 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.card p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    line-height: 1.4;
+    font-size: 0.95rem;
+    color: #555;
+    margin: 8px 0;
+}
+
+
+
+.card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+.meta {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.card img.thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card a {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-right: 10px;
+}
+
+.card a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.profile-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+/* カード本体 */
+.product-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 8px 30px 16px 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 290px;
+    overflow: visible;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* サムネイル画像 */
+.product-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+/* タイトル */
+.product-title {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* 詳細リンク */
+.detail-link {
+    color: #007BFF;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}
+
+/* 投稿者エリア */
+.product-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+.product-user-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.product-username {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* 削除ボタン：右上 */
+.product-delete {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+}
+
+/* 編集ボタン：右下 */
+.product-edit {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+/* 共通：アイコンとボタン */
+.action-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.action-icon:hover {
+    opacity: 1;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+
+
+
+/* === 画面下固定の投稿ボタンエリア === */
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 200;
+    transition: opacity 0.5s ease;
+}
+
+.action-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #0056b3;
+}
+
+.floating-buttons.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card {
+    position: relative;
+}
+
+/* 編集アイコン：右下 */
+.post-actions {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+/* 削除アイコン：右上 */
+.delete-form {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+}
+
+/* 共通アイコンスタイル */
+.action-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.action-icon:hover {
+    opacity: 1;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.edit-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+

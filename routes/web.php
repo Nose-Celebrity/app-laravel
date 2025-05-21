@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\ProfileController;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 
+=======
+use App\Http\Controllers\HomeController;
+>>>>>>> 7ddbdf27814ddc0f9b4a2e20b78008261d908e33
 
 //ログイン画面へのルート設定
     Route::middleware('guest')->group(function(){
@@ -55,9 +59,7 @@ Route::post('/logout',function(){
 //ログイン判定関係
 // ミドルウェア適用（ログイン必須のルート）
 Route::middleware(CheckLogin::class)->group(function () {
-    Route::get('/index', function () {
-        return view('index');
-    });
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     // プロフィール機能
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -119,6 +121,5 @@ Route::get('/test-reset-email', function () {
 );
 //いいね機能
 Route::post('/answers/{answer}/like', [AnswerController::class, 'toggleLike'])->name('answers.toggleLike');
-Route::post('/answers/{id}/like', [AnswerController::class, 'like'])->name('answers.like');
 Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');
-
+Route::post('/products/{id}/toggle-like', [ProductController::class, 'toggleLike'])->name('products.toggleLike');

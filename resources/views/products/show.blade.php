@@ -50,6 +50,16 @@
             <img src="{{ asset('storage/' . $product->photo) }}" alt="作品の画像">
             <p>{{ $product->body }}</p>
             <small>投稿日: {{ $product->date }}</small>
+                <div style="margin-top: 10px;">
+        <form action="{{ route('products.toggleLike', $product->id) }}" method="POST">
+    @csrf
+    <button type="submit">
+        {{ $product->hasLiked(session('user_id')) ? 'いいね解除　💔' : 'いいね　❤️' }}
+    </button>
+</form>
+<span>いいね数：{{ $product->getLikesCount() }}</span>
+    </div>
+
         </div>
 
         <!-- リプライ一覧 -->
