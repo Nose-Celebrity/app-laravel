@@ -119,42 +119,5 @@
 
     </div>
 
-    <form id="logout-form" method="POST" action="{{route('logout')}}" style="display:none;">
-        @csrf
-    </form>
-
-    <!-- ログアウトボタン -->
-    <button onclick="confirmLogout()" class="new-post" style="background-color: #dc3545;">
-        ログアウト
-    </button>
-
-    <script>
-        function confirmLogout() {
-        if (confirm('ログアウトしてもよろしいですか？この操作は取り消せません。')) {
-            document.getElementById('logout-form').submit();
-        }
-    }
-    </script>
-
-
-
-    <form id="delete-account-form" method="POST" action="{{route('user.delete')}}" style="display:none;">
-        @csrf
-        @method('DELETE')
-    </form>
-
-    <!-- アカウント削除ボタン -->
-    <button onclick="confirmDelete()" class="new-post" style="background-color: #dc3545;">
-        アカウント削除
-    </button>
-
-    <script>
-        function confirmDelete() {
-        if (confirm('本当にアカウントを削除しますか？この操作は取り消せません。')) {
-            document.getElementById('delete-account-form').submit();
-        }
-    }
-    </script>
-
 </body>
 </html>

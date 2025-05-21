@@ -39,11 +39,11 @@
             @endif
 
             <div class=input_container>
-                <label for="inputEmail" class="sr-olny">メールアドレス</label><br>
+                <label for="inputEmail" class="sr-olny"></label><br>
                 <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <div class=input_container>
-            <label for="inputPassword" class="sr-only">パスワード</label><br>
+            <label for="inputPassword" class="sr-only"></label><br>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
             </div>
 

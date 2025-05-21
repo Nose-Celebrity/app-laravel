@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- テスト -->
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{asset('/css/style.css')}}">
     <title>作品一覧</title>

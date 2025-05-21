@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <style>
+        .button-user-delete{
+            display: inline-block;
+            margin: 10px 0;
+            border:0;
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .button-user-delete:hover{
+            background-color: #BA2030;
+        }
+    </style>
     <title>プロフィール</title>
 </head>
 <body>
@@ -31,6 +48,23 @@
             {{ $profile->introduction ?? '未登録' }}
         </p>
         <a href="{{ route('profile.edit') }}" class="new-post">プロフィールを編集する</a>
+
+        <form id="delete-account-form" method="POST" action="{{route('user.delete')}}" style="display:none;">
+            @csrf
+            @method('DELETE')
+        </form>
+        <!-- アカウント削除ボタン -->
+        <button onclick="confirmDelete()" class="button-user-delete">
+        アカウント削除
+        </button>
+
+        <script>
+            function confirmDelete() {
+            if (confirm('本当にアカウントを削除しますか？この操作は取り消せません。')) {
+                document.getElementById('delete-account-form').submit();
+            }
+        }
+        </script>
     </div>
 </body>
 </html>
