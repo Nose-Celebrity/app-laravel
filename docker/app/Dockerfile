@@ -12,8 +12,6 @@ RUN apk add --no-cache \
     git \
     zip \
     unzip \
-    nodejs \
-    npm \
     python3 \
     py3-pip \
     github-cli \
@@ -45,19 +43,10 @@ RUN chmod 755 /usr/local/bin/composer
 
 # 作業ディレクトリの設定
 WORKDIR /app
-# package.json と package-lock.json を最初にコピーして npm install
-COPY package*.json ./
-RUN npm install --include=dev
 
-# node_modules の権限を変更 (node_modules が存在する場合のみ)
-RUN if [ -d "/app/node_modules" ]; then chown -R $USER_UID:$USER_GID /app/node_modules; fi
 
 # 作業ディレクトリをコピー
 COPY . .
-
-# エントリーポイントスクリプトの設定
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # シェル補完用の設定を追加
 RUN cd /usr/share/bash-completion/completions; \
@@ -68,6 +57,3 @@ USER ${USERNAME}
 
 # PATH環境変数の設定
 ENV PATH="/home/${USERNAME}/.composer/vendor/bin:/home/${USERNAME}/.local/bin:${PATH}"
-
-# 最後にエントリーポイントスクリプトを実行
-CMD ["/usr/local/bin/entrypoint.sh"]
