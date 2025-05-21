@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => '永城稜',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('nagasiro829'),
                 'photo' => null,
                 'locked_flg' => 0,
                 'error_count' => 0,
