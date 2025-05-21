@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+    <!-- テストメイン -->
     <title>作品一覧</title>
     <style>
         .product-list {
