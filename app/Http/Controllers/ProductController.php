@@ -138,5 +138,18 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('success', '作品が削除されました！');
     }
+public function toggleLike(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
+    $userId = session('user_id'); // セッションからログイン中ユーザーID取得
+
+    if ($product->hasLiked($userId)) {
+        $product->unlike($userId);
+    } else {
+        $product->like($userId);
+    }
+
+    return redirect()->back();
+}
 
 }

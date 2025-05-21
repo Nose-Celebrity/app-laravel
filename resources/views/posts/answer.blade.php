@@ -98,11 +98,11 @@
             <p>{{ $post->body }}</p>
             <p class="user">{{ $post->user->name ?? '不明なユーザー' }}</p>
             <p class="created-at">{{ $post->created_at->format('Y年m月d日 H:i') }}</p>
-            <p>👍 {{ $post->getLikesCount() }}件のいいね</p>
+            <p>いいね数：{{ $post->getLikesCount() }}</p>
     <form action="{{ route('posts.toggleLike', $post->id) }}" method="POST">
         @csrf
         <button type="submit">
-            {{ $post->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
+            {{ $post->hasLiked(session('user_id')) ? 'いいね解除　💔' : 'いいね　❤️' }}
         </button>
     </form>
         </div>
@@ -124,11 +124,11 @@
                     <button type="submit" class="back-link" onclick="return confirm('本当に削除しますか？')">削除</button>
                 </form>
             @endif
-            <p>👍 {{ $answer->getLikesCount() }}件のいいね</p>
+            <p>いいね数：{{ $answer->getLikesCount() }}</p>
             <form action="{{ route('answers.toggleLike', $answer->id) }}" method="POST">
                 @csrf
                 <button type="submit">
-                    {{ $answer->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね👍' }}
+                    {{ $answer->hasLiked(session('user_id')) ? 'いいね解除　💔' : 'いいね　❤️' }}
                 </button>
             </form>
         </div>
