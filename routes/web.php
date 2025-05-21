@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
+
 
 //ログイン画面へのルート設定
-Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::middleware('guest')->group(function(){
+        Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
+        Route::post('/login', [AuthController::class, 'login'])->name('login');
+    });
 
 //パスワード変更画面へのルート設定
 Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
@@ -25,9 +29,6 @@ Route::post('/change-password', [AuthController::class, 'updatepassword'])->name
 //アカウント新規作成
 Route::get('/new_login', [AuthController::class, 'newlogin'])->name('new.login');
 Route::post('/new_login', [AuthController::class, 'newregistration'])->name('new.registration');
-
-// ユーザーのアカウント削除ルート
-Route::delete('/user/delete', [AuthController::class, 'delete'])->name('user.delete');
 
 // パスワードリセットリクエスト表示
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
@@ -41,6 +42,14 @@ Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])-
 // パスワードの再設定
 Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 
+// ユーザーのアカウント削除ルート
+Route::delete('/user/delete', [AuthController::class, 'delete'])->name('user.delete');
+
+// ログアウト
+Route::post('/logout',function(){
+    Auth::logout();
+    return redirect()->route('showLogin')->with('success','ログアウトしました');
+})->name('logout');
 
 
 //ログイン判定関係
@@ -87,14 +96,7 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     // 削除
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-    // ホーム画面
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
 
-
-    // ログアウト
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::get('/test-reset-email', function () {

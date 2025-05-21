@@ -118,6 +118,25 @@
 
     </div>
 
+    <form id="logout-form" method="POST" action="{{route('logout')}}" style="display:none;">
+        @csrf
+    </form>
+
+    <!-- ログアウトボタン -->
+    <button onclick="confirmLogout()" class="new-post" style="background-color: #dc3545;">
+        ログアウト
+    </button>
+
+    <script>
+        function confirmLogout() {
+        if (confirm('ログアウトしてもよろしいですか？この操作は取り消せません。')) {
+            document.getElementById('logout-form').submit();
+        }
+    }
+    </script>
+
+
+
     <form id="delete-account-form" method="POST" action="{{route('user.delete')}}" style="display:none;">
         @csrf
         @method('DELETE')
@@ -135,5 +154,6 @@
         }
     }
     </script>
+
 </body>
 </html>

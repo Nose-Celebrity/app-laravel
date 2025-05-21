@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang='ja'>
 <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible"
     content="IE=edge">
@@ -29,8 +32,6 @@
 
             <x-alert type="danger" :session="session('danger')"/>
 
-
-
             @if (session('logout'))
             <div class="alert alert-danger">
                 {{session('logout')}}
@@ -53,7 +54,6 @@
             <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードをお忘れの場合</a>
 
         </form>
-
     </div>
 </body>
 </html>

@@ -20,6 +20,7 @@ class AuthController extends Controller
      */
     public function showLogin(): View
     {
+
         return view('login.login_form');
     }
 
@@ -53,7 +54,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.show')->with('danger', 'ログアウトしました');
+        return redirect()->route('logout')->with('danger', 'ログアウトしました');
     }
 
     /**
