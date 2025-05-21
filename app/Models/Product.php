@@ -22,4 +22,11 @@ class Product extends Model
         return $this->belongsToMany(Genres::class, 'product_genre', 'product_id', 'genre_id');
     }
 
+    // 投稿者（User）とのリレーション
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+
 }

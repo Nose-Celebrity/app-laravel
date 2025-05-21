@@ -29,7 +29,9 @@ class ProductController extends Controller
         }
 
         $products = $query->latest()->get();
+        $products = $query->with('user')->latest()->get();
         $genres = Genres::all();
+
 
         return view('products.index', compact('products', 'genres'));
     }

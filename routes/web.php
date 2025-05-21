@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 
 //ログイン画面へのルート設定
 Route::get('/', [AuthController::class, 'showLogin'])->name('showLogin');
@@ -46,9 +47,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('p
 //ログイン判定関係
 // ミドルウェア適用（ログイン必須のルート）
 Route::middleware(CheckLogin::class)->group(function () {
-    Route::get('/index', function () {
-        return view('index');
-    });
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     // プロフィール機能
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -87,10 +86,6 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     // 削除
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-    // ホーム画面
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
 
 
     // ログアウト
