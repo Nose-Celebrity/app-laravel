@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -22,4 +22,24 @@ class Product extends Model
         return $this->belongsToMany(Genres::class, 'product_genre', 'product_id', 'genre_id');
     }
 
-}
+    public function hasLiked($userId)
+    {
+    return Redis::sismember('product:' . $this->id . ':likes_users', $userId);
+    }
+
+    public function like($userId)
+    {
+        Redis::sadd('product:' . $this->id . ':likes_users', $userId);
+    }
+
+    public function unlike($userId)
+    {
+        Redis::srem('product:' . $this->id . ':likes_users', $userId);
+    }
+
+    public function getLikesCount()
+    {
+        return Redis::scard('product:' . $this->id . ':likes_users');
+    }
+
+    }
