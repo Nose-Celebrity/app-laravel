@@ -43,8 +43,8 @@
                 <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
             </div>
             <div class=input_container>
-            <label for="inputPassword" class="sr-only"></label><br>
-            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                <label for="inputPassword" class="sr-only"></label><br>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
             </div>
 
             <button class="btn btn-lg btn-primary btn-block sign_in" type="submit">Sign in</button>

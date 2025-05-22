@@ -27,7 +27,7 @@ h1 {
 }
 
 .form-control{
-    display: flex;
+    display:block;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -79,3 +79,40 @@ h1 {
 .sign_in:hover{
     background: #0056b3
 }
+
+.floating-label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    overflow: hidden;
+}
+
+.floating-label input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    font-size: 1rem;
+}
+
+.floating-label label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    color: gray;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label {
+    top: 5px;
+    font-size: 12px;
+    color: #0078D4;
+}
+

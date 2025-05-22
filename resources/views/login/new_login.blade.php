@@ -33,17 +33,26 @@
             </div>
             @endif
 
-            <label for="currentmailaddress">ユーザネーム</label>
-            <input type="text" id="currentname" name="name" class="form-control" placeholder="ユーザネーム" required>
+            <div class="floating-label">
+                <input type="text" id="currentname" name="name" class="form-control" required placeholder="">
+                <label for="currentname">ユーザネーム</label>
+            </div>
 
-            <label for="email">メールアドレス</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="メールアドレス" required>
+            <div class="floating-label">
+                <input type="email" id="email" name="email" class="form-control" required placeholder="">
+                <label for="email">メールアドレス</label>
+            </div>
 
-            <label for="currentPassword">パスワード</label>
-            <input type="password" id="currentPassword" name="password" class="form-control" placeholder="パスワード" required>
+            <div class="floating-label">
+                <input type="password" id="currentPassword" name="password" class="form-control" required placeholder="">
+                <label for="currentPassword">パスワード</label>
+            </div>
 
-            <label for="newPasswordConfirmation">パスワード（再入力）</label>
-            <input type="password" id="newPasswordConfirmation" name="new_password" class="form-control" placeholder="確認のため再入力" required>
+            <div class="floating-label">
+                <input type="password" id="newPasswordConfirmation" name="new_password" class="form-control" required placeholder="">
+                <label for="newPasswordConfirmation">パスワード（再入力）</label>
+            </div>
+
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">新規登録</button>
         </form>
