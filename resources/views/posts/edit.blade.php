@@ -55,5 +55,6 @@
             <button type="submit">更新する</button>
         </form>
     </div>
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
