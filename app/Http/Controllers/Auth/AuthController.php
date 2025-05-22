@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('posts.index')->with('success', 'ログイン成功しました');
+            return redirect()->route('home')->with('success', 'ログイン成功しました');
         }
 
         return back()->withErrors([
@@ -85,7 +85,7 @@ class AuthController extends Controller
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
 
-        return redirect()->route('posts.index')->with('success', 'パスワードを変更しました');
+        return redirect()->route('home')->with('success', 'パスワードを変更しました');
     }
 
     /**
@@ -114,7 +114,7 @@ class AuthController extends Controller
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
-        return redirect()->route('posts.index')->with('success', 'アカウントの作成が完了しました');
+        return redirect()->route('home')->with('success', 'アカウントの作成が完了しました');
     }
 
     /**
