@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/header.css')}}">
     <title>作品一覧</title>
     <style>
         .product-list {
@@ -24,12 +25,39 @@
 </head>
 <body>
     <header class="header">
-        <ul class="menu" style="list-style: none; padding-left: 0;">
-            <li><a class="select " href="{{ route('posts.index')}}">質問</a></li>
-            <li><a class="select now" href="{{ route('products.index')}}">作品投稿</a></li>
-            <!-- 自分のプロフィール -->
-            <li><a class="select" href="{{ route('profile.index') }}">マイプロフィール</a></li>
-        </ul>
+        <div class="header-left">
+            <span class="site-title">情報共有サイト</span>
+        </div>
+
+        <div class="header-right">
+            {{-- 検索フォーム --}}
+            <form action="{{ route('home') }}" method="GET" class="search-form">
+                <div class="search-box">
+                    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="検索キーワードを入力" class="search-input">
+                    <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
+                </div>
+            </form>
+
+            {{-- ユーザーアイコン＆メニュー --}}
+            <div class="user-menu-wrapper">
+                <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
+                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
+                <ul class="user-menu" id="userMenu">
+                    <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">@csrf
+                            <button type="submit">ログアウト</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
+                            @csrf @method('DELETE')
+                            <button type="submit">パスワード変更</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
     <div class="container">
         <h1>作品一覧</h1>

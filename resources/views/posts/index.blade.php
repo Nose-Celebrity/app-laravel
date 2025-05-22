@@ -5,75 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/header.css')}}">
     <title>質問一覧</title>
-    <style>
-        .new-post {
-            display: inline-block;
-            margin: 10px 0;
-            padding: 8px 16px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        .new-post:hover {
-            background-color: #0056b3;
-        }
-
-        .post {
-            margin-bottom: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-
-        .post h3 {
-            margin-top: 0;
-            color: #555;
-        }
-
-        .user{
-            text-align: right;
-            font-size: 1em;
-            color: #999;
-        }
-
-        .body {
-            color: #666;
-        }
-
-
-        .no-posts {
-            text-align: center;
-
-            font-size: 1em;
-            color: #888;
-        }
-
-        button{
-            display: inline-block;
-            margin: 10px 0;
-            border:0;
-            padding: 8px 16px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <header class="header">
-        <ul class="menu" style="list-style: none; padding-left: 0;">
-            <li><a class="select now" href="{{ route('posts.index')}}">質問</a></li>
-            <li><a class="select " href="{{ route('products.index')}}">作品投稿</a></li>
-            <!-- 自分のプロフィール -->
-            <li><a class="select" href="{{ route('profile.index') }}">マイプロフィール</a></li>
-        </ul>
+        <div class="header-left">
+            <span class="site-title">情報共有サイト</span>
+        </div>
+
+        <div class="header-right">
+            {{-- 検索フォーム --}}
+            <form action="{{ route('home') }}" method="GET" class="search-form">
+                <div class="search-box">
+                    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="質問を検索" class="search-input">
+                    <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
+                </div>
+            </form>
+
+            {{-- ユーザーアイコン＆メニュー --}}
+            <div class="user-menu-wrapper">
+                <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
+                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
+                <ul class="user-menu" id="userMenu">
+                    <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">@csrf
+                            <button type="submit">ログアウト</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
+                            @csrf @method('DELETE')
+                            <button type="submit">パスワード変更</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
     <div class="container">
         <h1>質問一覧</h1>
