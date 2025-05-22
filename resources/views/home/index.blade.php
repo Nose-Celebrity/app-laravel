@@ -28,7 +28,8 @@
                 <ul class="user-menu" id="userMenu">
                     <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
                     <li>
-                        <form method="POST" action="{{ route('logout') }}">@csrf
+                        <form method="POST" action="{{ route('logout') }}"　style="display:none;">
+                            @csrf
                             <button type="submit">ログアウト</button>
                         </form>
                     </li>
@@ -171,6 +172,17 @@
                 btns.classList.remove('hidden');
             }
             lastScrollY = window.scrollY;
+        });
+    </script>
+
+
+
+    <script>
+        window.addEventListener("pageshow", function(event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            // ブラウザバックされた場合に強制リロード
+            window.location.reload();
+        }
         });
     </script>
 

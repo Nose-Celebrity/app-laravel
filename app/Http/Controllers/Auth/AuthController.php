@@ -18,10 +18,18 @@ class AuthController extends Controller
     /**
      * ログインフォームを表示
      */
-    public function showLogin(): View
+    public function showLogin(): \Illuminate\Http\Response
     {
+        if(Auth::check()){
+            return redirect()->route(('home'));
+        }
 
-        return view('login.login_form');
+        $response = response()->view('login.login_form');
+
+        return $response
+            ->header('Cache-Control','no-store,no-cache,must-revalidate')
+            ->header('Pragma','no-cache')
+            ->header('Expires','0');
     }
 
     /**

@@ -12,8 +12,8 @@ class HomeController extends Controller
 {
     $keyword = $request->input('keyword');
 
-    $posts = Post::latest();
-    $products = Product::latest();
+    $posts = Post::with('user')->latest();
+    $products = Product::with('user')->latest();
 
     if ($keyword) {
         $posts->where(function($q) use ($keyword) {
@@ -27,11 +27,20 @@ class HomeController extends Controller
         });
     }
 
-    return view('home.index', [
+    return response()->view('home.index',[
         'posts' => $posts->get(),
         'products' => $products->get()
-    ]);
-}
+    ])
+    ->header('Cache-Control','no-store,no-cache,must-revalidate')
+    ->header('Pragma','no-cache')
+    ->header('Expires','0');
+
+    //return view('home.index', [
+    //    'posts' => $posts->get(),
+    //    'products' => $products->get()
+    //]);
+    //}
 
 
+    }
 }
