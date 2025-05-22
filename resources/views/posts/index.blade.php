@@ -44,6 +44,11 @@
             </div>
         </div>
     </header>
+    <nav class="breadcrumb">
+        <a href="{{ route('home') }}">ホーム</a> &gt;
+        <span class="current">質問一覧</span>
+    </nav>
+
     <div class="container">
         <h1>質問一覧</h1>
         <a class = "new-post" href="{{ route('posts.create') }}">新しい書き込み</a>
