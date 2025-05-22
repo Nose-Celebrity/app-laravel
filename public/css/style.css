@@ -14,7 +14,7 @@ body {
     line-height: 1.6;
     background-color: #f9f9f9;
     margin: 0;
-    padding: 0;
+    padding-top: 100px; /* ヘッダー + パンくずリスト分の余白 */
     color: #333;
 }
 
