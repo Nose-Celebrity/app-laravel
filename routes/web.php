@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -13,12 +14,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\ProfileController;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 
-=======
-use App\Http\Controllers\HomeController;
->>>>>>> 7ddbdf27814ddc0f9b4a2e20b78008261d908e33
 
 //ログイン画面へのルート設定
     Route::middleware('guest')->group(function(){
