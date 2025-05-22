@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ $product->title }} - 詳細</title>
         <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+        <link rel="stylesheet" href="{{asset('/css/header.css')}}">
 
     <style>
         .container {
@@ -43,6 +44,46 @@
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="header-left">
+            <span class="site-title">情報共有サイト</span>
+        </div>
+
+        <div class="header-right">
+            {{-- 検索フォーム --}}
+            <form action="{{ route('home') }}" method="GET" class="search-form">
+                <div class="search-box">
+                    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="検索キーワードを入力" class="search-input">
+                    <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
+                </div>
+            </form>
+
+            {{-- ユーザーアイコン＆メニュー --}}
+            <div class="user-menu-wrapper">
+                <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
+                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
+                <ul class="user-menu" id="userMenu">
+                    <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">@csrf
+                            <button type="submit">ログアウト</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
+                            @csrf @method('DELETE')
+                            <button type="submit">パスワード変更</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <nav class="breadcrumb">
+        <a href="{{ route('home') }}">ホーム</a> &gt;
+        <a href="{{ route('products.index') }}">作品一覧</a> &gt;
+        <span class="current">作品詳細</span>
+    </nav>
     <div class="container">
         <a class="browser-back" href="{{ route('products.index') }}">←</a>
         <!-- 作品詳細 -->

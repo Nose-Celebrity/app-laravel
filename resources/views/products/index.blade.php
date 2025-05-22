@@ -59,6 +59,10 @@
             </div>
         </div>
     </header>
+    <nav class="breadcrumb">
+        <a href="{{ route('home') }}">ホーム</a> &gt;
+        <span class="current">作品一覧</span>
+    </nav>
     <div class="container">
         <h1>作品一覧</h1>
         <!-- 検索フォーム -->

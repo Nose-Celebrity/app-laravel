@@ -42,6 +42,9 @@
             </div>
         </div>
     </header>
+    <nav class="breadcrumb">
+        <span class="current">ホーム</span>
+    </nav>
 
 
 
