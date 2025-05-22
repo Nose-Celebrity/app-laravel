@@ -110,7 +110,7 @@
                 @forelse ($product->replies as $reply)
                     <div class="reply">
                         <strong>{{ $reply->title }}</strong>
-                        <p>{{ $reply->body }}</p>
+                        <p>{!! $reply->makeLink(e($reply->body)) !!}</p>
                         <small>投稿日: {{ $reply->date }}</small>
                 <form action="{{ route('replies.toggleLike', $reply->id) }}" method="POST" style="margin-top: 5px;">
                     @csrf

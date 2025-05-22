@@ -42,5 +42,13 @@ public function unlike($userId)
 {
     Redis::srem("reply:likes:{$this->id}", $userId);
 }
+public function makeLink(string $text): string
+{
+    return preg_replace(
+        '~(https?://[^\s]+)~',
+        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
+        e($text)
+    );
+}
 
 }

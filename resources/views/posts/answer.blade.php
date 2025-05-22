@@ -146,7 +146,7 @@
             @foreach ($answers as $answer)
             <div class="answer" id="answer-{{ $answer->id }}">
             <h4 class="title">{{ $answer->title }}</h4>
-            <p class="body">{{ $answer->body }}</p>
+            <p class="body">{!! $answer->makeLink($answer->body) !!}</p>
             <p class="user">{{ $answer->user->name ?? '不明なユーザー' }}</p>
             <p class="created-at">{{ $answer->created_at->format('Y年m月d日 H:i') }}</p>
             @if ($answer->user_id === auth()->id())
