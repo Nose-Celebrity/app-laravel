@@ -71,6 +71,7 @@
             <button type="submit">書き込む</button>
         </form>
     </div>
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
 

@@ -104,6 +104,6 @@
                 <p>作品が登録されていません。</p>
             @endforelse
         </div>
-    <div>
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
