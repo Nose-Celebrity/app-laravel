@@ -71,9 +71,15 @@
                         <strong>{{ $reply->title }}</strong>
                         <p>{{ $reply->body }}</p>
                         <small>投稿日: {{ $reply->date }}</small>
-                    </div>
-                @empty
-                    <p>返信はまだありません。</p>
+                <form action="{{ route('replies.toggleLike', $reply->id) }}" method="POST" style="margin-top: 5px;">
+                    @csrf
+                    <button type="submit">
+                        {{ $reply->hasLiked(session('user_id')) ? 'いいね解除 💔' : 'いいね ❤️' }}
+                    </button>
+                </form>
+                <span>いいね数：{{ $reply->getLikesCount() }}</span>
+            </div>
+        @emptyはまだありません。</p>
                 @endforelse
             </div>
         </div>

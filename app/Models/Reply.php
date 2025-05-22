@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Redis;
 class Reply extends Model
 {
     //
@@ -21,5 +21,26 @@ class Reply extends Model
         return $this->belongsTo(Product::class);
     }
 
+
+
+public function getLikesCount()
+{
+    return Redis::scard("reply:likes:{$this->id}");
+}
+
+public function hasLiked($userId)
+{
+    return Redis::sismember("reply:likes:{$this->id}", $userId);
+}
+
+public function like($userId)
+{
+    Redis::sadd("reply:likes:{$this->id}", $userId);
+}
+
+public function unlike($userId)
+{
+    Redis::srem("reply:likes:{$this->id}", $userId);
+}
 
 }

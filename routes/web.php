@@ -120,3 +120,4 @@ Route::get('/test-reset-email', function () {
 Route::post('/answers/{answer}/like', [AnswerController::class, 'toggleLike'])->name('answers.toggleLike');
 Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');
 Route::post('/products/{id}/toggle-like', [ProductController::class, 'toggleLike'])->name('products.toggleLike');
+Route::post('/replies/{reply}/toggle-like', [ReplyController::class, 'toggleLike'])->name('replies.toggleLike');
