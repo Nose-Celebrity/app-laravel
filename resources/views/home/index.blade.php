@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>ホーム</title>
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
 </head>
 <body>
     <header class="header">
@@ -34,7 +35,7 @@
                     <li>
                         <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
                             @csrf @method('DELETE')
-                            <button type="submit">アカウント削除</button>
+                            <button type="submit">パスワード変更</button>
                         </form>
                     </li>
                 </ul>
