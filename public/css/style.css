@@ -48,7 +48,7 @@ h1 {
     background-color:#0056b3;
 }
 
-/*横並びメニュー*/
+/*横並びメニュー、ヘッダーできたら消してちょ*/
 .menu{
 	display: flex;
 	flex-wrap:wrap;
@@ -62,6 +62,7 @@ h1 {
 	max-width:100%; /*はみだしを防ぐ*/
 	height: auto; /*縦横比を維持 */
 }
+
 .select {
     text-decoration: none!important;
     justify-content: center; /*左右間で中央*/
@@ -86,3 +87,4 @@ h1 {
 .now{   /*選択の項目を光らせる機能*/
     background: #ff009d;
 }
+/* ここまで */
