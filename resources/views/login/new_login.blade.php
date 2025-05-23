@@ -54,7 +54,7 @@
             </div>
 
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">新規登録</button>
+            <button class="btn btn-lg btn-primary btn-block sign_in" type="submit">新規登録</button>
         </form>
     </div>
 </body>

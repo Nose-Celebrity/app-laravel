@@ -86,7 +86,6 @@ h1 {
     justify-content: center;
     align-items: center;
     margin: 10px;
-    overflow: hidden;
 }
 
 .floating-label input {
@@ -96,6 +95,9 @@ h1 {
     border-radius: 5px;
     background-color: #ffffff;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
+    outline: none;
+    color: black;
 }
 
 .floating-label label {
@@ -105,14 +107,29 @@ h1 {
     transform: translateY(-50%);
     transition: all 0.3s ease;
     color: gray;
-    font-size: 16px;
+    font-size: 14px;
     pointer-events: none;
+    background: #ffffff;
+    line-height: 1.2;
+    display: inline-block;
 }
+
+.floating-label input:focus{
+    border-color: #007bff;
+    border: 2px solid #007bff ;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+.floating-label input:focus + label{
+    color: #0078D4;
+}
+
 
 .floating-label input:focus + label,
 .floating-label input:not(:placeholder-shown) + label {
-    top: 5px;
-    font-size: 12px;
-    color: #0078D4;
+    top: 1px;
+    font-size: 10px;
+    padding: 2px 5px;
+
 }
 
