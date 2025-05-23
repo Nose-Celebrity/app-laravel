@@ -80,7 +80,7 @@
                 </div>
 
                 <div id="edit-previewContainer" style="display:none;">
-                    <p>変更後の</p>
+                    <p>変更後の画像</p>
                     <img id="imagePreview" src="#" alt="プレビュー" class="image-preview">
                 </div>
             </div>
