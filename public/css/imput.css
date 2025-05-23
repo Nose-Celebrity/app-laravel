@@ -1,0 +1,276 @@
+/* 全体の背景とフォント設定 */
+body {
+    background-color: #f0f2f5;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px; /* ヘッダー + パンくずリスト分の余白 */
+}
+
+/* コンテンツを白いカードで囲む */
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* タイトル */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* フォームグループ共通 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+
+/* タイトル入力欄（1行） */
+.title-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* 内容入力欄（複数行、固定サイズ＋スクロール） */
+.body-textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    resize: none;
+    overflow-y: auto;
+}
+
+.title-input:focus,
+.body-textarea:focus {
+    border: 2px solid #007bff !important;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4) !important;
+    outline: none !important;
+}
+
+
+/* 書き込むボタン（中央・丸み・青） */
+.submit-button {
+    background-color: #0056d2; /* より濃い青 */
+    color: white;
+    padding: 14px 32px;
+    font-size: 16px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: block;
+    margin: 30px auto 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background-color: #003f9e;
+}
+
+
+/* 戻るボタン */
+.browser-back {
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.browser-back:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* パンくずリスト */
+.breadcrumb {
+    padding: 10px 20px;
+    background-color: #e9ecef;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb .current {
+    color: #6c757d;
+}
+
+/* ▼ ファイル選択 */
+.file-input {
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+/* 非表示のファイル選択 */
+.file-input-hidden {
+    display: none;
+}
+
+/* カスタムファイル選択ボタン（上品系） */
+.file-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #007bff;
+    background-color: white;
+    border: 2px solid #007bff;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.file-label:hover {
+    background-color: #e6f0ff;
+    color: #0056b3;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+}
+
+.file-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.file-button-wrapper {
+    text-align: center;
+    margin: 20px 0;
+}
+
+
+
+/* ▼ 画像プレビューエリア */
+.image-preview-container {
+    margin-top: 15px;
+}
+
+.image-preview-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    max-width: 320px;
+    margin-top: 8px;
+}
+
+.image-preview-img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+
+
+/* ジャンル選択スタイル */
+.genre-group {
+    margin-top: 30px;
+    padding: 16px 20px;
+    border: 1px dashed #ccc; /* 点線 */
+    border-radius: 12px;
+    background-color: #f9f9f9;
+}
+
+.genre-group label {
+    display: block;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+
+.genre-checkbox {
+    display: inline-block;
+    margin: 0px 10px 8px 0;
+}
+
+.genre-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.genre-checkbox label {
+    cursor: pointer;
+    border: 2px solid #007bff;
+    color: #007bff;
+    background-color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.genre-checkbox input[type="checkbox"]:checked + label {
+    background-color: #b5dafcd8;
+    color: #0056d2;
+    border-color: #0056d2;
+}
+
+/* プレビューエリア */
+#previewContainer {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+    background-color: #fafafa;
+    text-align: center;
+}
+
+/* プレビューエリア */
+#edit-previewContainer {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+    background-color: #f6fdff;
+    text-align: center;
+}
+
+/* プレビューエリア */
+#current-edit-previewContainer {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+    background-color: #fafafa;
+    text-align: center;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 10px;
+}

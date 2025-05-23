@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>作品投稿</title>
-        <link rel="stylesheet" href="{{asset('/css/style.css')}}">
-        <link rel="stylesheet" href="{{asset('/css/header.css')}}">
+    <link rel="stylesheet" href="{{ asset('/css/imput.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/header.css') }}">
 </head>
 <body>
     <header class="header">
         <div class="header-left">
             <span class="site-title">情報共有サイト</span>
         </div>
-
         <div class="header-right">
-            {{-- ユーザーアイコン＆メニュー --}}
             <div class="user-menu-wrapper">
                 <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
                     class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
@@ -34,6 +32,7 @@
             </div>
         </div>
     </header>
+
     <nav class="breadcrumb">
         <a href="{{ route('home') }}">ホーム</a> &gt;
         <a href="{{ route('products.index') }}">作品一覧</a> &gt;
@@ -41,12 +40,11 @@
     </nav>
 
     <div class="container">
-
+        <a class="browser-back" href="{{ route('products.index') }}">← 作品一覧に戻る</a>
         <h1>新しい制作物を投稿</h1>
 
-        <!-- バリデーションエラー表示 -->
         @if ($errors->any())
-            <div style="color:red;">
+            <div class="error-messages">
                 @foreach ($errors->all() as $error)
                     <p>{{ $error }}</p>
                 @endforeach
@@ -56,35 +54,53 @@
         <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
             @csrf
 
-            <label>タイトル：</label><br>
-            <input type="text" name="title" value="{{ old('title') }}"><br><br>
-
-            <label>説明：</label><br>
-            <textarea name="body">{{ old('body') }}</textarea><br><br>
-
-            <label>画像：</label><br>
-            <input type="file" name="photo" id="photoInput" accept="image/*"><br><br>
-
-            {{-- プレビュー表示用 --}}
-            <div id="previewContainer" style="display:none;">
-                <p>画像プレビュー：</p>
-                <img id="imagePreview" src="#" alt ="プレビュー" style="max-width: 300px" >
+            <div class="form-group title-group">
+                <label for="title">タイトル：</label>
+                <input type="text" id="title" name="title" value="{{ old('title') }}" class="title-input">
             </div>
 
-            <label>ジャンル：</label><br>
-            @foreach ($genres as $genre)
-                <label>
-                    <input type="checkbox" name="genres[]" value="{{ $genre->id }}">
-                    {{ $genre->genre }}
-                </label><br>
-            @endforeach
-            <br>
+            <div class="form-group body-group">
+                <label for="body">説明：</label>
+                <textarea id="body" name="body" class="body-textarea">{{ old('body') }}</textarea>
+            </div>
+
+            <div class="form-group file-group">
+                <div class="file-button-wrapper">
+                    <label for="photoInput" class="file-label">
+                        写真をアップロード
+                        <img src="{{ asset('image/icons/photo.png') }}" alt="画像アイコン" class="file-icon">
+                    </label>
+                    <input type="file" name="photo" id="photoInput" class="file-input-hidden" accept="image/*">
+                </div>
 
 
-            <button type="submit">投稿する</button>
+
+                <div id="previewContainer" style="display:none;">
+                    <p>選択中の写真</p>
+                    <img id="imagePreview" src="#" alt="プレビュー" class="image-preview">
+                </div>
+            </div>
+
+
+
+            <div class="form-group genre-group">
+                <label>ジャンル：</label><br>
+                @foreach ($genres as $genre)
+                    <div class="genre-checkbox">
+                        <input type="checkbox" id="genre_{{ $genre->id }}" name="genres[]" value="{{ $genre->id }}">
+                        <label for="genre_{{ $genre->id }}">{{ $genre->genre }}</label>
+                    </div>
+                @endforeach
+            </div>
+
+
+
+
+
+            <button type="submit" class="submit-button">投稿する</button>
         </form>
+
         <script>
-            // 画像プレビュー表示
             document.getElementById('photoInput').addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 const previewContainer = document.getElementById('previewContainer');
@@ -96,14 +112,14 @@
                         previewContainer.style.display = 'block';
                     }
                     reader.readAsDataURL(file);
-                }
-                else {
+                } else {
                     previewContainer.style.display = 'none';
                     preview.src = '#';
                 }
             });
         </script>
     </div>
+
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
