@@ -38,16 +38,16 @@
             </div>
             @endif
 
-            <div class=input_container>
-                <label for="inputEmail" class="sr-olny"></label><br>
-                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+            <div class=floating-label>
+                <input type="email" id="inputEmail" name="email" class="form-control" required placeholder="">
+                <label for="inputEmail">メールアドレス</label><br>
             </div>
-            <div class=input_container>
-            <label for="inputPassword" class="sr-only"></label><br>
-            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+            <div class=floating-label>
+                <input type="password" id="inputPassword" name="password" class="form-control" required placeholder="">
+                <label for="inputPassword">パスワード</label><br>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block sign_in" type="submit">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block sign_in" type="submit">サインイン</button>
 
             <a href="{{route('new.login')}}" class="btn btn-link mt-3">新規登録</a>
 
