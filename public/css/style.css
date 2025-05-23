@@ -88,3 +88,19 @@ h1 {
     background: #ff009d;
 }
 /* ここまで */
+
+
+/*質問本文*/
+.post-detail .post-body{
+    white-space: pre-wrap;
+}
+
+/*回答本文*/
+.answer .body{
+    white-space: pre-wrap;
+}
+
+.post p.body{
+    white-space: pre-wrap;
+}
+
