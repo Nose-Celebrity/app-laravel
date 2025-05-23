@@ -41,6 +41,7 @@
     </nav>
 
     <div class="container">
+        <a class="browser-back" href="{{ route('products.index') }}">← 作品一覧に戻る</a>
         <h1>制作物を編集</h1>
 
         @if ($errors->any())
