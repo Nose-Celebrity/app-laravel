@@ -48,7 +48,7 @@
             <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
             <div>
                 <p>{{ $user->name }}</p>
-                <p>{{ $user->mail_address }}</p>
+                <p>{{ $user->email }}</p>
             </div>
         </div>
         <p><strong>自己紹介：</strong><br>
