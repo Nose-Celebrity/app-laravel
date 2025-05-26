@@ -47,8 +47,8 @@
         <div style="display: flex; align-items: center; gap: 24px;">
             <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
             <div>
-                <p>{{ $user->name }}</p>
-                <p>{{ $user->email }}</p>
+                <p class="profile-username">{{ $user->name }}</p>
+                <p class="profile-email">{{ $user->email }}</p>
             </div>
         </div>
         <p><strong>自己紹介：</strong><br>
