@@ -112,14 +112,17 @@
                         <strong>{{ $reply->title }}</strong>
                         <p>{!! $reply->makeLink(e($reply->body)) !!}</p>
                         <small>投稿日: {{ $reply->date }}</small>
-                <form action="{{ route('replies.toggleLike', $reply->id) }}" method="POST" style="margin-top: 5px;">
-                    @csrf
-                    <button type="submit">
-                        {{ $reply->hasLiked(session('user_id')) ? 'いいね解除 💔' : 'いいね ❤️' }}
-                    </button>
-                </form>
-                <span>いいね数：{{ $reply->getLikesCount() }}</span>
-            </div>
+            <div id="reply-{{ $reply->id }}">
+    <!-- リプライ内容 -->
+
+    <form action="{{ route('replies.toggleLike', $reply->id) }}#reply-{{ $reply->id }}" method="POST" style="margin-top: 5px;">
+        @csrf
+        <button type="submit">
+            {{ $reply->hasLiked(session('user_id')) ? 'いいね解除 💔' : 'いいね ❤️' }}
+        </button>
+    </form>
+    <span>いいね数：{{ $reply->getLikesCount() }}</span>
+</div>
         @emptyはまだありません。</p>
                 @endforelse
             </div>

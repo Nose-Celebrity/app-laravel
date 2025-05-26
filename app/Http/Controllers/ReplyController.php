@@ -28,7 +28,7 @@ class ReplyController extends Controller
         public function toggleLike($id)
 {
     $reply = Reply::findOrFail($id);
-    $userId = session('user_id'); // 認証しているなら auth()->id() でもOK
+    $userId = session('user_id');
 
     if ($reply->hasLiked($userId)) {
         $reply->unlike($userId);
