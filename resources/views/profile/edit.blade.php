@@ -16,7 +16,8 @@
         <div class="header-right">
             {{-- ユーザーアイコン＆メニュー --}}
             <div class="user-menu-wrapper">
-                <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
+                <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image/default_profile.png') }}"
+                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
                 <ul class="user-menu" id="userMenu">
                     <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
                     <li>
