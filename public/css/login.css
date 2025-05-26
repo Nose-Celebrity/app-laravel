@@ -144,3 +144,35 @@ h1 {
 .detail-link:hover {
     text-decoration: underline;
 }
+
+/* レスポンシブ対応 iPhone PMシリーズ基準*/
+@media screen and (max-width: 430px) {
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+        box-shadow: none;
+    }
+
+    h1 {
+        font-size: 1.6rem; /* 見出しのフォントサイズ調整 */
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .floating-label input,
+    .form-control,
+    .sign_in {
+        font-size: 0.95rem; /* 入力欄 */
+        padding: 12px; /* ボタンや入力欄 */
+    }
+
+    .floating-label label {
+        font-size: 13px; /* ラベル */
+    }
+
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label {
+        font-size: 9px; /* フォーカス時/入力時 */
+    }
+}
