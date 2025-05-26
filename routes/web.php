@@ -98,24 +98,6 @@ Route::middleware(CheckLogin::class)->group(function () {
 
 });
 
-Route::get('/test-reset-email', function () {
-    // ユーザーを取得（例としてメールアドレスを指定）
-    $user = User::where('mail_address', 'kd1322303@st.kobedenshi.ac.jp')->first();
-
-    if ($user) {
-        // トークンを生成
-        $token = Password::createToken($user);
-
-        // メール送信
-        Mail::to($user->mail_address)->send(new PasswordReset($token));
-
-        return 'メールが送信されました';
-    }
-
-    return 'ユーザーが見つかりませんでした';
-}
-
-);
 //いいね機能
 Route::post('/answers/{answer}/like', [AnswerController::class, 'toggleLike'])->name('answers.toggleLike');
 Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');

@@ -15,7 +15,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
-        'mail_address',
+        'email',
         'password',
     ];
 
@@ -44,13 +44,6 @@ class User extends Authenticatable
      * メールアドレスを返すメソッド（mail_address列を使用）
      */
 // App\Models\User.php
-
-    public function getEmailForPasswordReset()
-    {
-        return $this->mail_address;
-    }
-
-
     /**
      * ユーザープロフィールとのリレーション
      */
@@ -63,9 +56,5 @@ class User extends Authenticatable
         return 'id';
     }
     // mail_address を email として参照できるようにする
-    public function getEmailAttribute()
-    {
-        return $this->mail_address;
-    }
 
 }

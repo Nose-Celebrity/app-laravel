@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Log;
 
 class PasswordResetLinkController extends Controller
 {
@@ -14,7 +13,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create()
     {
-        return view('auth.forgot-password'); // フォームビューを返す
+        return view('auth.forgot-password'); // パスワードリセットフォームの表示
     }
 
     /**
@@ -23,19 +22,14 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email'], // メールアドレスのバリデーション
         ]);
 
-        // Laravelが使う "email" キーに mail_address をコピー
-        $request->merge(['email' => $request->input('email')]);
-
-        // 送信処理
+        // パスワードリセットリンク送信処理
         $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['status' => __($status)]) // 成功時のメッセージ
+            : back()->withErrors(['email' => __($status)]); // エラー発生時
     }
-
-
 }

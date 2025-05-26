@@ -63,7 +63,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
-            'email' => 'mail_address', // メールアドレスのカラム名
+            'email' => 'email', // メールアドレスのカラム名
             'username' => 'username', // ユーザー名のカラム名
         ],
 

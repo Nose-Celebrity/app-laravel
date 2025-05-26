@@ -23,8 +23,8 @@
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
 
-        <label for="mail_address">メールアドレス</label>
-        <input id="mail_address" type="email" name="mail_address" value="{{ old('mail_address') }}" required autofocus>
+        <label for="email">メールアドレス</label>
+        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
 
         <button type="submit">再設定リンクを送信</button>
     </form>
