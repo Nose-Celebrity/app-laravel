@@ -33,12 +33,13 @@
             </div>
         </form>
         <div class="user-menu-wrapper">
-            <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
-                class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
+            <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('image/default_profile.png') }}"
+                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
             <ul class="user-menu" id="userMenu">
                 <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
                 <li>
-                    <form method="POST" action="{{ route('logout') }}">@csrf
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
                         <button type="submit">ログアウト</button>
                     </form>
                 </li>
@@ -79,17 +80,6 @@
             <img src="{{ asset('storage/' . $product->photo) }}" alt="作品の画像" class="product-image">
         </div>
 
-            {{-- ユーザーアイコン＆メニュー --}}
-            <div class="user-menu-wrapper">
-                <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
-                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
-                <ul class="user-menu" id="userMenu">
-                    <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">@csrf
-                            <button type="submit">ログアウト</button>
-                        </form>
-                    </li>
         <p class="post-body">{{ $product->body }}</p>
 
         <div class="post-meta">
