@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/imput.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/header.css') }}">
     <title>プロフィール編集</title>
 </head>
@@ -48,7 +48,7 @@
             <!-- ユーザー名 -->
             <div>
                 <label for="name">ユーザー名</label><br>
-                <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
+                <input class="title-input" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
             </div>
 
             <!-- 自己紹介 -->

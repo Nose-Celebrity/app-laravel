@@ -32,13 +32,13 @@
 .profile-username{
     font-size: 2rem;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: -20px;
 }
 
 .profile-email{
     font-size: 1.2rem;
     color: #666;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .intro-label{
