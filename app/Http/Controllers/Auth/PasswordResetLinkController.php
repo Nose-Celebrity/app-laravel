@@ -23,18 +23,18 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'mail_address' => ['required', 'email'],
+            'email' => ['required', 'email'],
         ]);
 
         // Laravelが使う "email" キーに mail_address をコピー
-        $request->merge(['email' => $request->input('mail_address')]);
+        $request->merge(['email' => $request->input('email')]);
 
         // 送信処理
         $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
-            : back()->withErrors(['mail_address' => __($status)]);
+            : back()->withErrors(['email' => __($status)]);
     }
 
 
