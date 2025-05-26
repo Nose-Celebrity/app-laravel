@@ -1,0 +1,218 @@
+/* ベース設定 */
+body {
+    padding-top: 100px;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 10px;
+    color: #007BFF;
+}
+
+.post {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.08);
+    overflow: hidden;
+    height: 180px; /* ★ 高さ固定 */
+}
+
+/* 本文4行省略 */
+.post .body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+    margin: 8px 0 16px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* ★ 最大4行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+
+/* ヘッダー：画像 + タイトル + ユーザー名 */
+.post-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.profile-column {
+    flex-shrink: 0;
+}
+
+.text-column {
+    flex-grow: 1;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.post-title {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.user {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 4px;
+}
+
+/* 本文 */
+.post .body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+    margin: 8px 0 16px 0;
+    white-space: pre-wrap;
+}
+
+.detail-link {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    color: #007BFF;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* 空の投稿用メッセージ */
+.no-posts {
+    text-align: center;
+    color: #888;
+    margin-top: 40px;
+    font-size: 1rem;
+}
+
+/* パンくずリスト */
+.breadcrumb {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #f8f9fa;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    z-index: 100;
+}
+
+.breadcrumb a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb .current {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 下部中央に固定配置するボタン */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+}
+
+.new-post {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s;
+}
+
+.new-post:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+
+/* 編集・削除共通アイコンボタン */
+.icon-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.action-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.action-icon:hover {
+    opacity: 1;
+}
+
+/* 編集リンク（右下） */
+.post-actions {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+}
+
+.edit-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* 削除ボタン（右上） */
+.delete-form {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+}
