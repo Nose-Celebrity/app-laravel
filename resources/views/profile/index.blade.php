@@ -50,9 +50,13 @@
                 ? asset('storage/' . $user->photo)
                 : asset('image/default_profile.png');
         @endphp
-        <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
-        <p><strong>ユーザー名：</strong> {{ $user->name }}</p>
-        <p><strong>メールアドレス：</strong> {{ $user->mail_address }}</p>
+        <div style="display: flex; align-items: center; gap: 24px;">
+            <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
+            <div>
+                <p>{{ $user->name }}</p>
+                <p>{{ $user->mail_address }}</p>
+            </div>
+        </div>
         <p><strong>自己紹介：</strong><br>
             {{ $profile->introduction ?? '未登録' }}
         </p>
