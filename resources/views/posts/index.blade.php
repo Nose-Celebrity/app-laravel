@@ -32,12 +32,6 @@
                             <button type="submit">ログアウト</button>
                         </form>
                     </li>
-                    <li>
-                        <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
-                            @csrf @method('DELETE')
-                            <button type="submit">パスワード変更</button>
-                        </form>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -79,7 +73,7 @@
 
 
                 @if ($post->user_id === auth()->id())
-                
+
                     <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form" onsubmit="return confirm('本当に削除しますか？')">
                         @csrf
                         @method('DELETE')
