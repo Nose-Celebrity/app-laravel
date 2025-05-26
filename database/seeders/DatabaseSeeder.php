@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             PostsTableSeeder::class,
             ProductSeeder::class,
-            AnswersTableSeeder::class,
             GenresSeeder::class,
             ReplySeeder::class,
             AnswersTableSeeder::class,
