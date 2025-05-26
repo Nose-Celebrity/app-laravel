@@ -64,6 +64,9 @@ public function toggleLike(Request $request, Answer $answer)
     {
         $pattern = '/(https?:\/\/[^\s<]+)/u';
         $replacement = '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>';
-        return preg_replace($pattern, $replacement, e($value));
+
+        $linkedText = preg_replace($pattern, $replacement,$value);
+
+        return $linkedText;
     }
 }

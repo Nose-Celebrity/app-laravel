@@ -302,3 +302,6 @@ body {
     color: #0056b3;
 }
 
+.card-body {
+    white-space: pre-wrap;
+}

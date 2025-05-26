@@ -69,7 +69,7 @@
                             <p class="meta">{{ $post->user->name ?? '不明なユーザー' }} / {{ $post->created_at->format('Y年m月d日 H:i') }}</p>
                         </div>
                     </div>
-                    <p>{{ $post->body }}</p>
+                    <p class = "card-body">{{ $post->body }}</p>
                     <a href="{{ route('posts.answer', $post->id) }}">詳細・回答</a>
                     @if ($post->user_id === auth()->id())
                         {{-- 削除アイコン --}}
