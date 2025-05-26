@@ -6,8 +6,8 @@
 
 .button-user-delete{
     position: absolute;
-    right: 60px;
-    bottom: 50px;    justify-content: flex-end;
+    right: 20px;
+    bottom: 10px;
     display: inline-block;
     margin: 10px 0;
     border:0;
