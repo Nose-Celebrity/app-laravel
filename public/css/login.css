@@ -133,3 +133,14 @@ h1 {
 
 }
 
+
+/* リンクを水色に */
+.detail-link {
+    color: #007BFF;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}

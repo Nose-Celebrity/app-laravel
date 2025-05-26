@@ -49,9 +49,9 @@
 
             <button class="btn btn-lg btn-primary btn-block sign_in" type="submit">サインイン</button>
 
-            <a href="{{route('new.login')}}" class="btn btn-link mt-3">新規登録</a>
+            <a href="{{route('new.login')}}" class="btn btn-link mt-3 detail-link">新規登録</a>
 
-            <a href="{{route('password.change')}}" class="btn btn-link mt-3">パスワードをお忘れの場合</a>
+            <a href="{{route('password.change')}}" class="btn btn-link mt-3 detail-link">パスワードをお忘れの場合</a>
 
         </form>
     </div>

@@ -1,9 +1,15 @@
+/* リンクを水色に */
 .detail-link {
     color: #007BFF;
     font-size: 0.95rem;
     text-decoration: none;
 }
 
+.detail-link:hover {
+    text-decoration: underline;
+}
+
+/* 削除ボタンのスタイル */
 .button-user-delete{
     position: absolute;
     right: 20px;
