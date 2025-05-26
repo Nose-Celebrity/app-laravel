@@ -5,23 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/header.css') }}">
-    <style>
-        .button-user-delete{
-            display: inline-block;
-            margin: 10px 0;
-            border:0;
-            padding: 8px 16px;
-            background-color: #dc3545;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-        }
+    <link rel="stylesheet" href="{{ asset('/css/profile.css') }}">
 
-        .button-user-delete:hover{
-            background-color: #BA2030;
-        }
-    </style>
     <title>プロフィール</title>
 </head>
 <body>
@@ -71,7 +56,7 @@
         <p><strong>自己紹介：</strong><br>
             {{ $profile->introduction ?? '未登録' }}
         </p>
-        <a href="{{ route('profile.edit') }}" class="new-post">プロフィールを編集する</a>
+        <a href="{{ route('profile.edit') }}" class="new-post detail-link">プロフィールを編集する</a>
 
         <form id="delete-account-form" method="POST" action="{{route('user.delete')}}" style="display:none;">
             @csrf
