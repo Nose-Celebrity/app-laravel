@@ -40,3 +40,5 @@ services:
       - ./.env-pma.txt
     ports:
       - 127.0.0.1::80
+    networks:
+      - app-network 

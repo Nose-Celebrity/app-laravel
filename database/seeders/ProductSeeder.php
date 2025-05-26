@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
             Product::create([
-                'user_id' => 2, // 仮のユーザーID（usersテーブルに1人登録しておいてね）
+                'user_id' => 3, // 仮のユーザーID（usersテーブルに1人登録しておいてね）
                 'title' => 'Debatemate',
                 'body' => 'OpenAIのAPIを用い、議論の進行やまとめを行ったり、発言内容の要約やアドバイスをしてくれるSNSです。',
                 'photo' => 'images/debatemate1.png',
