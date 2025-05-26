@@ -61,6 +61,7 @@ body {
 
 .card h3 {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 1.1rem;
     color: #333;
 }
@@ -155,8 +156,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 8px;
-    margin-bottom: 6px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
 }
 
 .product-user-icon {
@@ -165,11 +167,13 @@ body {
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid #ccc;
+    margin-left: -26px;
 }
 
 .product-username {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: #555;
+    margin-left: -10;
 }
 
 /* 削除ボタン：右上 */

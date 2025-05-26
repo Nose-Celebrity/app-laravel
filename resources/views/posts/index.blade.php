@@ -79,6 +79,7 @@
 
 
                 @if ($post->user_id === auth()->id())
+                
                     <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="delete-form" onsubmit="return confirm('本当に削除しますか？')">
                         @csrf
                         @method('DELETE')
