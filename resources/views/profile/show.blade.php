@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/profile.css') }}">
     <title>{{ $user->name }} さんのプロフィール</title>
 </head>
 <body>
@@ -35,19 +36,21 @@
     </nav>
 
     <div class="container">
-        <h1>{{ $user->name }} さんのプロフィール</h1>
-
         @php
             $profileImage = $user->photo
                 ? asset('storage/' . $user->photo)
                 : asset('image/default_profile.png');
         @endphp
-        <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;"><br>
 
-        <p><strong>ユーザー名：</strong> {{ $user->name }}</p>
-        <p><strong>自己紹介：</strong><br>
-            {{ $profile->introduction ?? '未登録' }}
-        </p>
+        <div style="display: flex; align-items: center; gap: 24px;">
+            <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;"><br>
+            <div>
+                <p class="profile-username"><strong>{{ $user->name }}</strong></p>
+                <p class="profile-email">{{ $user->email }}</p>
+                <p><strong  class="intro-label">自己紹介</strong><br>
+                    <span class="intro-text">{{ $profile->introduction ?? '未登録' }}</span></p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -37,8 +37,6 @@
     </nav>
 
     <div class="container">
-        <h1>プロフィール</h1>
-
         @php
             $profileImage = $user->photo
                 ? asset('storage/' . $user->photo)
@@ -47,13 +45,12 @@
         <div style="display: flex; align-items: center; gap: 24px;">
             <img src="{{ $profileImage }}" alt="プロフィール画像" style="width:150px; height:150px; object-fit:cover; border-radius:50%;">
             <div>
-                <p class="profile-username">{{ $user->name }}</p>
+                <p class="profile-username"><strong>{{ $user->name }}</strong></p>
                 <p class="profile-email">{{ $user->email }}</p>
+                <p><strong  class="intro-label">自己紹介</strong><br>
+                    <span class="intro-text">{{ $profile->introduction ?? '未登録' }}</span></p>
             </div>
         </div>
-        <p><strong>自己紹介：</strong><br>
-            {{ $profile->introduction ?? '未登録' }}
-        </p>
         <a href="{{ route('profile.edit') }}" class="new-post detail-link">プロフィールを編集する</a>
 
         <form id="delete-account-form" method="POST" action="{{route('user.delete')}}" style="display:none;">

@@ -30,12 +30,24 @@
 }
 
 .profile-username{
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #333;
     margin-bottom: 10px;
 }
 
 .profile-email{
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.intro-label{
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.intro-text{
     font-size: 1.2rem;
     color: #666;
     margin-bottom: 20px;
