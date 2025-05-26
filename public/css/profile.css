@@ -28,3 +28,15 @@
 .button-user-delete:hover{
     background-color: #BA2030;
 }
+
+.profile-username{
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.profile-email{
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+}
