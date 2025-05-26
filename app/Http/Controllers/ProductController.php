@@ -69,7 +69,7 @@ class ProductController extends Controller
         // 中間テーブルにジャンルを保存（複数対応）
         $product->genres()->attach($request->genres);
 
-        return redirect()->route('products.index')->with('success', '投稿が完了しました！');
+        return redirect()->route('home')->with('success', '投稿が完了しました！');
     }
 
 
@@ -121,7 +121,7 @@ class ProductController extends Controller
 
         $product->genres()->sync($request->genres);
 
-        return redirect()->route('products.index')->with('success', '作品が更新されました！');
+        return redirect()->route('home')->with('success', '作品が更新されました！');
     }
 
     public function destroy($id)
@@ -137,6 +137,21 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')->with('success', '作品が削除されました！');
+    }
+
+    public function destroyhome($id)
+    {
+        $product = Product::findOrFail($id);
+
+        // 投稿者本人以外は403
+        if ($product->user_id !== auth()->id()) {
+            abort(403, 'この作品は削除できません。');
+        }
+
+        $product->genres()->detach();
+        $product->delete();
+
+        return redirect()->route('home')->with('success', '作品が削除されました！');
     }
 public function toggleLike(Request $request, $id)
 {

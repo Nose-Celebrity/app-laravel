@@ -95,6 +95,7 @@ Route::middleware(CheckLogin::class)->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     // 削除
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/products/{id}', [ProductController::class, 'destroyhome'])->name('products.destroyhome');
 
 });
 
