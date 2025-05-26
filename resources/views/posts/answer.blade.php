@@ -14,13 +14,6 @@
     </div>
 
     <div class="header-right">
-        <form action="{{ route('posts.index') }}" method="GET" class="search-form">
-            <div class="search-box">
-                <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="キーワードで質問を検索" class="search-input">
-                <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
-            </div>
-        </form>
-
         <div class="user-menu-wrapper">
             <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
                 class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">

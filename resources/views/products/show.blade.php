@@ -3,172 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $product->title }} - 詳細</title>
-        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
-        <link rel="stylesheet" href="{{asset('/css/header.css')}}">
-
+    <link rel="stylesheet" href="{{ asset('/css/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/header.css') }}">
     <style>
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: auto;
+        .product-image-container {
+            margin-top: 12px;
+            margin-bottom: 16px;
+            text-align: center;
         }
-
-        .card {
-            border: 1px solid #ccc;
-            padding: 1em;
-            margin-bottom: 2em;
-        }
-
-        .scroll-box {
-            max-height: 300px;
-            overflow-y: auto;
-            border-top: 1px solid #eee;
-            padding-top: 1em;
-        }
-
-        .reply {
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 1em;
-            padding-bottom: 0.5em;
-        }
-
-        img {
+        .product-image {
             max-width: 100%;
             height: auto;
-        }
-
-        .edit-link {
-            float: right;
-            font-size: 0.9em;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-left">
-            <span class="site-title">情報共有サイト</span>
+<header class="header">
+    <div class="header-left">
+        <span class="site-title">情報共有サイト</span>
+    </div>
+    <div class="header-right">
+        <form action="{{ route('home') }}" method="GET" class="search-form">
+            <div class="search-box">
+                <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="検索キーワードを入力" class="search-input">
+                <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
+            </div>
+        </form>
+        <div class="user-menu-wrapper">
+            <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
+                class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
+            <ul class="user-menu" id="userMenu">
+                <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">@csrf
+                        <button type="submit">ログアウト</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
+                        @csrf @method('DELETE')
+                        <button type="submit">パスワード変更</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<nav class="breadcrumb">
+    <a href="{{ route('home') }}">ホーム</a> &gt;
+    <a href="{{ route('products.index') }}">作品一覧</a> &gt;
+    <span class="current">作品詳細</span>
+</nav>
+
+<div class="container">
+    <a class="browser-back" href="{{ route('products.index') }}">←作品一覧に戻る</a>
+
+    <!-- 作品詳細 -->
+    <div class="post-detail">
+        <div class="post-header">
+            <div class="profile-column">
+                <img src="{{ asset($product->user && $product->user->photo ? 'storage/' . $product->user->photo : 'image/default_profile.png') }}"
+                    alt="プロフィール画像" class="profile-img">
+            </div>
+            <div class="info-column">
+                <p class="user-name">{{ $product->user->name ?? '不明なユーザー' }}</p>
+                <h2 class="post-title">{{ $product->title }}</h2>
+            </div>
         </div>
 
-        <div class="header-right">
-            {{-- 検索フォーム --}}
-            <form action="{{ route('home') }}" method="GET" class="search-form">
-                <div class="search-box">
-                    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="検索キーワードを入力" class="search-input">
-                    <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
-                </div>
-            </form>
+        <div class="product-image-container">
+            <img src="{{ asset('storage/' . $product->photo) }}" alt="作品の画像" class="product-image">
+        </div>
 
-            {{-- ユーザーアイコン＆メニュー --}}
-            <div class="user-menu-wrapper">
-                <img src="{{ asset(Auth::user()->photo ?? 'image/default_profile.png') }}"
-                    class="user-icon" alt="ユーザーアイコン" onclick="toggleUserMenu()">
-                <ul class="user-menu" id="userMenu">
-                    <li><a href="{{ route('profile.index') }}">マイプロフィール</a></li>
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">@csrf
-                            <button type="submit">ログアウト</button>
-                        </form>
-                    </li>
-                    <li>
-                        <form method="POST" action="{{ route('user.delete') }}" onsubmit="return confirm('本当に削除しますか？');">
-                            @csrf @method('DELETE')
-                            <button type="submit">パスワード変更</button>
-                        </form>
-                    </li>
+        <p class="post-body">{{ $product->body }}</p>
+
+        <div class="post-meta">
+            <div class="meta-row">
+                <div class="meta-left">
+                    <p>👍：{{ $product->getLikesCount() }}</p>
+                </div>
+                <div class="meta-buttons">
+                    <form action="{{ route('products.toggleLike', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="{{ $product->hasLiked(session('user_id')) ? 'btn-unlike' : 'btn-like' }}">
+                            {{ $product->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね' }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="meta-date-under">
+                <p class="created-at">{{ $product->date }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- リプライ一覧 -->
+    <div class="answer-section">
+        <h3>返信一覧</h3>
+        @forelse ($product->replies as $reply)
+            <div class="answer" id="reply-{{ $reply->id }}">
+                <div class="post-header">
+                    <div class="profile-column">
+                        <img src="{{ asset($reply->user && $reply->user->photo ? 'storage/' . $reply->user->photo : 'image/default_profile.png') }}"
+                            alt="プロフィール画像" class="profile-img">
+                    </div>
+                    <div class="info-column">
+                        <p class="user-name">{{ $reply->user->name ?? '不明なユーザー' }}</p>
+                        <h4 class="post-title">{{ $reply->title }}</h4>
+                    </div>
+                </div>
+
+                <p class="post-body">{!! $reply->makeLink(e($reply->body)) !!}</p>
+
+                <div class="post-meta">
+                    <div class="meta-row">
+                        <div class="meta-left">
+                            <p>👍：{{ $reply->getLikesCount() }}</p>
+                        </div>
+                        <div class="meta-buttons">
+                            <form action="{{ route('replies.toggleLike', $reply->id) }}#reply-{{ $reply->id }}" method="POST">
+                                @csrf
+                                <button type="submit" class="{{ $reply->hasLiked(session('user_id')) ? 'btn-unlike' : 'btn-like' }}">
+                                    {{ $reply->hasLiked(session('user_id')) ? 'いいね解除' : 'いいね' }}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="meta-date-under">
+                        <p class="created-at">{{ $reply->date }}</p>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <p>返信はまだありません。</p>
+        @endforelse
+    </div>
+
+    <!-- リプライ投稿フォーム -->
+    <div class="answer-form">
+        <h3>返信を書く</h3>
+
+        @if (session('success'))
+            <div style="color: green; margin-bottom: 1em;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div style="color: red; margin-bottom: 1em;">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
                 </ul>
             </div>
-        </div>
-    </header>
-    <nav class="breadcrumb">
-        <a href="{{ route('home') }}">ホーム</a> &gt;
-        <a href="{{ route('products.index') }}">作品一覧</a> &gt;
-        <span class="current">作品詳細</span>
-    </nav>
-    <div class="container">
-        <a class="browser-back" href="{{ route('products.index') }}">←</a>
-        <!-- 作品詳細 -->
-        <div class="card">
-            <img src="{{ asset('storage/' . $product->photo) }}" alt="作品の画像">
-            <p>{{ $product->body }}</p>
-            <small>投稿日: {{ $product->date }}</small>
-                <div style="margin-top: 10px;">
-        <form action="{{ route('products.toggleLike', $product->id) }}" method="POST">
-    @csrf
-    <button type="submit">
-        {{ $product->hasLiked(session('user_id')) ? 'いいね解除　💔' : 'いいね　❤️' }}
-    </button>
-</form>
-<span>いいね数：{{ $product->getLikesCount() }}</span>
-    </div>
+        @endif
 
-        </div>
+        <form action="{{ route('replies.store', ['product' => $product->id]) }}" method="POST">
+            @csrf
 
-        <!-- リプライ一覧 -->
-        <div class="card">
-            <h3>返信一覧</h3>
-            <div class="scroll-box">
-                @forelse ($product->replies as $reply)
-                    <div class="reply">
-                        <strong>{{ $reply->title }}</strong>
-                        <p>{!! $reply->makeLink(e($reply->body)) !!}</p>
-                        <small>投稿日: {{ $reply->date }}</small>
-            <div id="reply-{{ $reply->id }}">
-    <!-- リプライ内容 -->
-
-    <form action="{{ route('replies.toggleLike', $reply->id) }}#reply-{{ $reply->id }}" method="POST" style="margin-top: 5px;">
-        @csrf
-        <button type="submit">
-            {{ $reply->hasLiked(session('user_id')) ? 'いいね解除 💔' : 'いいね ❤️' }}
-        </button>
-    </form>
-    <span>いいね数：{{ $reply->getLikesCount() }}</span>
-</div>
-        @emptyはまだありません。</p>
-                @endforelse
+            <div>
+                <label for="title">タイトル:</label><br>
+                <input type="text" name="title" id="title" required style="width: 100%;">
             </div>
-        </div>
 
-        <!-- 返信フォーム -->
-        <div class="card">
-            <h3>返信を書く</h3>
+            <div style="margin-top: 1em;">
+                <label for="body">本文:</label><br>
+                <textarea name="body" id="body" rows="4" required style="width: 100%;"></textarea>
+            </div>
 
-            {{-- 成功メッセージ --}}
-            @if (session('success'))
-                <div style="color: green; margin-bottom: 1em;">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            {{-- バリデーションエラー表示 --}}
-            @if ($errors->any())
-                <div style="color: red; margin-bottom: 1em;">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form action="{{ route('replies.store', ['product' => $product->id]) }}" method="POST">
-                @csrf
-
-                <div>
-                    <label for="title">タイトル:</label><br>
-                    <input type="text" name="title" id="title" required style="width: 100%;">
-                </div>
-
-                <div style="margin-top: 1em;">
-                    <label for="body">本文:</label><br>
-                    <textarea name="body" id="body" rows="4" required style="width: 100%;"></textarea>
-                </div>
-
-                <div style="margin-top: 1em;">
-                    <button type="submit">送信</button>
-                </div>
-            </form>
-        </div>
+            <div style="margin-top: 1em;">
+                <button type="submit">送信</button>
+            </div>
+        </form>
     </div>
-    <script src="{{ asset('js/script.js') }}"></script>
+</div>
+
+<script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

@@ -45,7 +45,10 @@
 
     <main class="main-content">
         <section class="column left-column">
-            <h2>質問一覧</h2>
+            <div class="section-header">
+                <h2>質問一覧</h2>
+                <a href="{{ route('posts.index') }}" class="browser-back">一覧を見る→</a>
+            </div>
             @foreach ($posts as $post)
                 @php
                     $profileImage = $post->user && $post->user->photo
@@ -92,7 +95,10 @@
         </section>
 
         <section class="column right-column">
-            <h2>作品一覧</h2>
+            <div class="section-header">
+                <h2>作品一覧</h2>
+                <a href="{{ route('products.index') }}" class="browser-back">一覧を見る→</a>
+            </div>
             <div class="product-list">
             @foreach ($products as $product)
                 @php
