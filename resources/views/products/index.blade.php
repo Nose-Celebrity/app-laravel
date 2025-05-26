@@ -82,6 +82,10 @@
                 </div>
             </div>
 
+            <div class="floating-button">
+                <a href="http://localhost/products/create" class="new-post">新しい制作物を投稿</a>
+            </div>
+
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

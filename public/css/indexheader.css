@@ -201,3 +201,25 @@
     font-weight: bold;
 }
 
+
+/* 下部中央に固定配置するボタン */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+}
+
+.new-post {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s;
+}
+
