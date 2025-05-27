@@ -101,8 +101,6 @@ jobs:
         # 例: yq -i '.nginxImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' ${{ env.HELM_CHART_VALUES_PATH }}
         
         echo "Updated image tag in ${{ env.HELM_CHART_VALUES_PATH }} to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
-        
-        
 
     - name: Commit and Push changes to Manifest Repository
       working-directory: ./manifest-repo # チェックアウトしたマニフェストリポジトリのディレクトリに移動
