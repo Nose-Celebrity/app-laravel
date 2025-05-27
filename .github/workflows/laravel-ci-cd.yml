@@ -4,27 +4,27 @@ name: Laravel CI/CD - Build, Push, and Update K8s Manifests
 
 on:
   push:
-    branches: [ 永城担当 ] # CI/CDを動かしたいブランチ名
+    branches: [ 永城担当 ] # ★CI/CDを動かしたいアプリのブランチ名
 
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  PHP_FPM_IMAGE_NAME: nqg1t0-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名 (ユーザー名なし)
-  NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名なし)
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub SecretsからDocker Hubユーザー名を取得
+  PHP_FPM_IMAGE_NAME: nqg1t0-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名 (ユーザー名部分はtagsで付加)
+  NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名部分はtagsで付加)
 
   # --- ★★★ マニフェストリポジトリ情報 (ここは必ず自分の環境に合わせて変更！) ★★★ ---
-  MANIFEST_REPO_OWNER: RyoNagashiro9280         # マニフェストリポジトリのオーナー
-  MANIFEST_REPO_NAME: k8s-manifest              # マニフェストリポジトリの名前
-  MANIFEST_REPO_BRANCH: main                    # マニフェストリポジトリの更新したいブランチ名
-  # マニフェストリポジトリ内のHelmチャートのvalues.yamlまでのパス
-  HELM_CHART_VALUES_PATH: my-nginx-chart/values.yaml
+  MANIFEST_REPO_OWNER: RyoNagashiro9280         # ★マニフェストリポジトリのオーナー
+  MANIFEST_REPO_NAME: k8s-manifest              # ★マニフェストリポジトリの名前
+  MANIFEST_REPO_BRANCH: main                    # ★マニフェストリポジトリの更新したいブランチ名
+  # マニフェストリポジトリ内のHelmチャートのvalues.yamlまでの相対パス
+  HELM_CHART_VALUES_PATH: my-nginx-chart/values.yaml # ★これが正しいパスか確認！
 
 jobs:
   test-build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: read # ソースコードのチェックアウトに必要
 
-    outputs:
+    outputs: # このジョブの出力を次のジョブで使えるようにする
       IMAGE_TAG: ${{ steps.image_meta.outputs.IMAGE_TAG }}
 
     steps:
@@ -32,9 +32,22 @@ jobs:
       uses: actions/checkout@v4
 
     # --- (オプション) Laravelのテスト実行ステップ ---
-    # (ここにテスト実行処理を追加)
+    # (ここにテスト実行処理を追加。DBが必要ならサービスコンテナも検討)
+    # - name: Setup PHP
+    #   uses: shivammathur/setup-php@v2
+    #   with:
+    #     php-version: '8.2' # Dockerfileと合わせる
+    #     extensions: mbstring, xml, bcmath, pdo_mysql, zip, gd, intl, exif, redis # プロジェクトに応じて
+    # - name: Copy .env for testing
+    #   run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    # - name: Install Composer Dependencies
+    #   run: composer install --prefer-dist --no-progress --no-ansi
+    # - name: Generate key for testing
+    #   run: php artisan key:generate
+    # - name: Run tests (PHPUnit)
+    #   run: php artisan test
 
-    - name: Set up QEMU
+    - name: Set up QEMU (for multi-platform builds, optional)
       uses: docker/setup-qemu-action@v3
 
     - name: Set up Docker Buildx
@@ -43,22 +56,22 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ env.DOCKERHUB_USERNAME }} # secrets.DOCKERHUB_USERNAME をGitHubに設定
-        password: ${{ secrets.DOCKERHUB_TOKEN }}  # secrets.DOCKERHUB_TOKEN をGitHubに設定
+        username: ${{ env.DOCKERHUB_USERNAME }} # GitHub Secretsの DOCKERHUB_USERNAME を使用
+        password: ${{ secrets.DOCKERHUB_TOKEN }}  # GitHub Secretsの DOCKERHUB_TOKEN を使用
 
     - name: Determine Image Tag (short SHA)
       id: image_meta
       run: |
         SHORT_SHA=$(echo ${GITHUB_SHA} | head -c7)
-        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
-        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_OUTPUT
+        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV   # このジョブ内の後続ステップで $IMAGE_TAG を使える
+        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_OUTPUT # 他のジョブから参照できるようにする
         echo "Image tag will be: ${SHORT_SHA}"
 
     - name: Build and push PHP-FPM image
       uses: docker/build-push-action@v6
       with:
         context: . # Laravelプロジェクトのルート
-        file: ./docker-prod/php-fpm/Dockerfile # PHP-FPM用Dockerfileのパス
+        file: ./docker-prod/php-fpm/Dockerfile # ★PHP-FPM用Dockerfileのパス
         push: true
         tags: |
           ${{ env.DOCKERHUB_USERNAME }}/${{ env.PHP_FPM_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -67,8 +80,8 @@ jobs:
     - name: Build and push Nginx image
       uses: docker/build-push-action@v6
       with:
-        context: ./docker-prod/nginx # Nginx用Dockerfileと設定ファイルがあるディレクトリ
-        file: ./docker-prod/nginx/Dockerfile # Nginx用Dockerfileのパス
+        context: ./docker-prod/nginx # ★Nginx用Dockerfileと設定ファイルがあるディレクトリ
+        file: ./docker-prod/nginx/Dockerfile # ★Nginx用Dockerfileのパス
         push: true
         tags: |
           ${{ env.DOCKERHUB_USERNAME }}/${{ env.NGINX_IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -76,43 +89,51 @@ jobs:
 
   update-kubernetes-manifests:
     runs-on: ubuntu-latest
-    needs: test-build-and-push
+    needs: test-build-and-push # test-build-and-pushジョブの完了を待つ
+    # if: github.ref == 'refs/heads/永城担当' # 例えば、トリガーブランチと同じ場合にマニフェスト更新
 
     steps:
     - name: Checkout Manifest Repository
       uses: actions/checkout@v4
       with:
         repository: ${{ env.MANIFEST_REPO_OWNER }}/${{ env.MANIFEST_REPO_NAME }}
-        token: ${{ secrets.PAT_FOR_MANIFEST_REPO }}
+        token: ${{ secrets.PAT_FOR_MANIFEST_REPO }} # ★マニフェストリポジトリ書き込み用のPATをSecretに設定！
         ref: ${{ env.MANIFEST_REPO_BRANCH }}
-        path: 'manifest-repo' # ★ここに 'manifest-repo' という名前でチェックアウト
+        path: 'manifest-repo' # チェックアウト先のローカルディレクトリ名
 
     - name: Update Helm Chart values.yaml
-      working-directory: ./manifest-repo # ★チェックアウトした manifest-repo ディレクトリに移動して作業する
-      run: | # ★ yqアクションを使う代わりに、直接runでyqを実行する (yqがランナーに入ってる前提)
+      working-directory: ./manifest-repo # チェックアウトしたマニフェストリポジトリのルートに移動
+      run: |
+        # HELM_CHART_VALUES_PATH はマニフェストリポジトリのルートからの相対パス
+        # (例: my-nginx-chart/values.yaml)
+        
         echo "Attempting to update ${{ env.HELM_CHART_VALUES_PATH }} with tag ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
         
-        # HELM_CHART_VALUES_PATH は 'my-nginx-chart/values.yaml' みたいな相対パスのはず
-        # working-directory が ./manifest-repo なので、その中からの相対パスで指定
+        # PHP-FPMイメージのタグを更新
+        # values.yaml の中の .phpFpmImage.tag を書き換える想定
         yq -i '.phpFpmImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' '${{ env.HELM_CHART_VALUES_PATH }}'
+        
+        # Nginxイメージのタグを更新
+        # values.yaml の中の .nginxImage.tag を書き換える想定
         yq -i '.nginxImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' '${{ env.HELM_CHART_VALUES_PATH }}'
         
-        echo "Successfully updated image tags in '${{ env.HELM_CHART_VALUES_PATH }}' to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
+        echo "Successfully updated image tags in '${{ env.HELM_CHART_VALUES_PATH }}'"
 
     - name: Commit and Push changes to Manifest Repository
-      working-directory: ./manifest-repo # ★ここも manifest-repo ディレクトリで作業
+      working-directory: ./manifest-repo # チェックアウトしたマニフェストリポジトリのルートに移動
       run: |
         git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+        git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com" # 推奨される noreply メールアドレス
+        
+        # 更新したvalues.yamlだけをadd
         git add ${{ env.HELM_CHART_VALUES_PATH }}
-        COMMIT_MSG="Update image tags to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }} (triggered by ${{ github.repository }} commit ${{ github.sha }})"
+        
+        COMMIT_MSG="Update image tags to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }} for ${{ env.PHP_FPM_IMAGE_NAME }} & ${{ env.NGINX_IMAGE_NAME }} (triggered by ${{ github.repository }} commit ${{ github.sha }})"
+        
+        # 変更があった場合のみコミット＆プッシュ (エラー防止と不要なコミット回避)
         if ! git diff --cached --quiet; then
           git commit -m "$COMMIT_MSG"
           git push
         else
           echo "No changes to commit in values.yaml"
         fi
-
-
-  # --- ★★★ マニフェストリポジトリの更新が必要な場合はここに追加のステップを入れる ★★★ ---
-  # 例えば、HelmチャートのアップデートやKubernetesリソースの更新など
