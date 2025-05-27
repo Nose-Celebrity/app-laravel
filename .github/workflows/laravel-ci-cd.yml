@@ -11,7 +11,7 @@ env:
 
   # --- マニフェストリポジトリ情報 (必ず自分の環境に合わせて変更！) ---
   MANIFEST_REPO_OWNER: RyoNagashiro9280              # マニフェストリポジトリのオーナー (GitHubユーザー名 or Organization名)
-  MANIFEST_REPO_NAME: nginx-test       # マニフェストリポジトリの名前
+  MANIFEST_REPO_NAME: k8s-manifest      # マニフェストリポジトリの名前
   MANIFEST_REPO_BRANCH: main                 # マニフェストリポジトリの更新したいブランチ名
   HELM_CHART_PATH_IN_MANIFEST_REPO: my-nginx-chart # マニフェストリポジトリ内のHelmチャートのパス (例: helm-charts/my-app)
                                                  # このパスに values.yaml がある想定
