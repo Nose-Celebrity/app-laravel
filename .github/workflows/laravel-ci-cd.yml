@@ -10,9 +10,9 @@ env:
   NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名なし)
 
   # --- マニフェストリポジトリ情報 (必ず自分の環境に合わせて変更！) ---
-  MANIFEST_REPO_OWNER: RyoNagashiro              # マニフェストリポジトリのオーナー (GitHubユーザー名 or Organization名)
-  MANIFEST_REPO_NAME: nagashiro-k8s-config       # マニフェストリポジトリの名前
-  MANIFEST_REPO_BRANCH: 永城担当                 # マニフェストリポジトリの更新したいブランチ名
+  MANIFEST_REPO_OWNER: RyoNagashiro9280              # マニフェストリポジトリのオーナー (GitHubユーザー名 or Organization名)
+  MANIFEST_REPO_NAME: nginx-test       # マニフェストリポジトリの名前
+  MANIFEST_REPO_BRANCH: main                 # マニフェストリポジトリの更新したいブランチ名
   HELM_CHART_PATH_IN_MANIFEST_REPO: my-nginx-chart # マニフェストリポジトリ内のHelmチャートのパス (例: helm-charts/my-app)
                                                  # このパスに values.yaml がある想定
   # --- ここまでマニフェストリポジトリ情報 ---
