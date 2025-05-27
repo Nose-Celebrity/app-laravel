@@ -83,11 +83,20 @@ FROM php:8.2-fpm-alpine
 
 WORKDIR /var/www/html
 
+# www-dataユーザーとグループはAlpineのphp:fpmイメージにデフォルトで存在する (uid 82, gid 82)
+
 # builderステージからアプリケーションコード(vendor含む)と最適化済みファイルをコピー
 COPY --from=builder /var/www/html .
 
-# builderステージから有効化されたPHP拡張の設定ファイルをコピー
+# builderステージから有効化されたPHP拡張の設定ファイル(.ini)をコピー
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+
+# ★★★ ここが超重要！ ★★★
+# builderステージでコンパイル・インストールされた拡張機能の .so ファイルをコピーする！
+# PHPの拡張機能ディレクトリは php -i | grep extension_dir で確認できるけど、
+# php:8.2-fpm-alpine やと、だいたい /usr/local/lib/php/extensions/no-debug-non-zts-20220829/ になるはず。
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20220829/ /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
+# ★★★★★★★★★★★★★★★★★★
 
 # (オプション) カスタムPHP設定 (本番用)
 # COPY php-prod.ini /usr/local/etc/php/conf.d/zz-custom-php-prod.ini
