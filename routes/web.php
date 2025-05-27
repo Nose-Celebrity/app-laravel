@@ -96,7 +96,8 @@ Route::middleware(CheckLogin::class)->group(function () {
     // 削除
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-    // Route::delete('/products/{id}', [ProductController::class, 'destroyhome'])->name('products.destroyhome');
+    // ホーム画面からの削除専用
+    Route::delete('/products/{id}/home-destroy', [ProductController::class, 'destroyhome'])->name('products.destroyhome');
 
 });
 
