@@ -4,25 +4,25 @@ name: Laravel CI/CD - Build, Push, and Update K8s Manifests
 
 on:
   push:
-    branches: [ 永城担当 ] # CI/CDを動かしたいブランチ名
+    branches: [ 永城担当 ] # ★CI/CDを動かしたいアプリのブランチ名
 
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub SecretsからDocker Hubユーザー名を取得
   PHP_FPM_IMAGE_NAME: nqg1t0-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名 (ユーザー名なし)
   NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名なし)
 
   # --- ★★★ マニフェストリポジトリ情報 (ここは必ず自分の環境に合わせて変更！) ★★★ ---
-  MANIFEST_REPO_OWNER: RyoNagashiro9280         # マニフェストリポジトリのオーナー
-  MANIFEST_REPO_NAME: k8s-manifest              # マニフェストリポジトリの名前
-  MANIFEST_REPO_BRANCH: main                    # マニフェストリポジトリの更新したいブランチ名
-  # マニフェストリポジトリ内のHelmチャートのvalues.yamlまでのパス
+  MANIFEST_REPO_OWNER: RyoNagashiro9280         # ★マニフェストリポジトリのオーナー (GitHubユーザー名 or Organization名)
+  MANIFEST_REPO_NAME: k8s-manifest              # ★マニフェストリポジトリの名前
+  MANIFEST_REPO_BRANCH: main                    # ★マニフェストリポジトリの更新したいブランチ名
+  # マニフェストリポジトリ内のHelmチャートのvalues.yamlまでの相対パス
   HELM_CHART_VALUES_PATH: my-nginx-chart/values.yaml
 
 jobs:
   test-build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: read # ソースコードのチェックアウトに必要
 
     outputs:
       IMAGE_TAG: ${{ steps.image_meta.outputs.IMAGE_TAG }}
@@ -50,8 +50,8 @@ jobs:
       id: image_meta
       run: |
         SHORT_SHA=$(echo ${GITHUB_SHA} | head -c7)
-        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
-        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_OUTPUT
+        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV   # このジョブ内の後続ステップで $IMAGE_TAG を使える
+        echo "IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_OUTPUT # 他のジョブから参照できるようにする
         echo "Image tag will be: ${SHORT_SHA}"
 
     - name: Build and push PHP-FPM image
@@ -77,7 +77,7 @@ jobs:
   update-kubernetes-manifests:
     runs-on: ubuntu-latest
     needs: test-build-and-push # test-build-and-pushジョブの完了を待つ
-    if: github.ref == 'refs/heads/永城担当' # トリガーブランチと同じブランチの時だけマニフェスト更新 (例)
+    # if: github.ref == 'refs/heads/永城担当' # 例えば、トリガーブランチと同じ場合にマニフェスト更新
 
     steps:
     - name: Checkout Manifest Repository
@@ -89,28 +89,30 @@ jobs:
         path: 'manifest-repo' # チェックアウト先のローカルディレクトリ名
 
     - name: Update Helm Chart values.yaml
-      working-directory: ./manifest-repo # チェックアウトしたマニフェストリポジトリのディレクトリに移動
-      run: |
-        # PHP-FPMイメージのタグを更新 (values.yamlの中の image.tag を書き換える想定)
-        # もしPHP-FPMイメージ用のキーが違うなら、そこを修正 (例: .phpFpmImage.tag)
-        yq -i '.image.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' ${{ env.HELM_CHART_VALUES_PATH }}
-        
-        # (オプション) もしNginxイメージもvalues.yamlでバージョン管理してるなら、それも更新
-        # 例: yq -i '.nginxImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' ${{ env.HELM_CHART_VALUES_PATH }}
-        
-        echo "Updated image tag in ${{ env.HELM_CHART_VALUES_PATH }} to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
+      working-directory: ./manifest-repo # ★チェックアウトしたマニフェストリポジトリのルートに移動
+      uses: mikefarah/yq@v4.40.5
+      with:
+        cmd: |
+          # HELM_CHART_VALUES_PATH はマニフェストリポジトリのルートからの相対パス
+          # PHP-FPMイメージのタグを更新 (values.yamlの中の .phpFpmImage.tag を書き換える想定)
+          yq -i '.phpFpmImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' '${{ env.HELM_CHART_VALUES_PATH }}'
+          
+          # Nginxイメージのタグを更新 (values.yamlの中の .nginxImage.tag を書き換える想定)
+          yq -i '.nginxImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' '${{ env.HELM_CHART_VALUES_PATH }}'
+          
+          echo "Updated image tags in '${{ env.HELM_CHART_VALUES_PATH }}' to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
 
     - name: Commit and Push changes to Manifest Repository
-      working-directory: ./manifest-repo # チェックアウトしたマニフェストリポジトリのディレクトリに移動
+      working-directory: ./manifest-repo # ★チェックアウトしたマニフェストリポジトリのルートに移動
       run: |
         git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "actions-bot@github.com" # または "YOUR_USERNAME@users.noreply.github.com"
+        git config --global user.email "${{ github.actor }}@users.noreply.github.com" # アクターのnoreplyメールアドレスを使う
         
-        git add ${{ env.HELM_CHART_VALUES_PATH }}
+        git add ${{ env.HELM_CHART_VALUES_PATH }} # 更新したvalues.yamlだけをadd
         
-        COMMIT_MSG="Update image tag for ${{ env.PHP_FPM_IMAGE_NAME }} to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }} (triggered by ${{ github.repository }} commit ${{ github.sha }})"
+        COMMIT_MSG="Update image tags to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }} for ${{ env.PHP_FPM_IMAGE_NAME }} & ${{ env.NGINX_IMAGE_NAME }} (triggered by ${{ github.repository }} commit ${{ github.sha }})"
         
-        # 変更があった場合のみコミット＆プッシュ (エラー防止)
+        # 変更があった場合のみコミット＆プッシュ (エラー防止と不要なコミット回避)
         if ! git diff --cached --quiet; then
           git commit -m "$COMMIT_MSG"
           git push
