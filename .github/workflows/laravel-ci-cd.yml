@@ -3,6 +3,7 @@ name: Laravel CI/CD - Build, Push, and Update K8s Manifests
 on:
   push:
     branches: [ 永城担当 ] # ★CI/CDを動かしたいブランチ名 (例: main, develop)
+  # pull_request: # プルリクエストの時にも動かしたかったらコメントアウトを外す
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub SecretsからDocker Hubユーザー名を取得
