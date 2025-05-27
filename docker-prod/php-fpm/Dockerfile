@@ -99,18 +99,27 @@ FROM php:8.2-fpm-alpine
 # builderステージの最初のapk addで、--virtualなしでリストアップしたやつと同じものを入れる
 RUN apk add --no-cache \
     icu-libs \
+    # intl.so が libicuio.so.XX を必要とする
     libzip \
     libpng \
+    # gd.so が libpng16.so.16 を必要とする
     libjpeg-turbo \
     freetype \
     oniguruma \
+    # mbstring用
     libxml2 \
     libxslt \
-    file
-    # redis拡張を使うなら、php82-pecl-redis みたいな実行時パッケージがあるか、
-    # あるいはbuilderステージから.soファイルをコピーする必要がある。
-    # ここではpeclで入れたredis.soをコピーする例を示す。
-
+    # xsl.so が libexslt.so.0 を必要とする (libxsltパッケージに含まれることが多い)
+    file \
+    # fileinfo用
+    # libintl # Alpineでは gettext パッケージに入ってる。icu-libsでカバーされることも。
+    #           もしintlがまだエラー出すなら gettext を試す。
+    # redis拡張を使うなら、php82-pecl-redis (もしあれば) か、
+    # あるいはredis.soが依存するライブラリ (通常は特にない)
+    # libexslt # libxslt の一部として提供されるか、あるいは別途必要か確認
+    # libmcrypt # もしmcrypt拡張使うなら (非推奨やけど)
+    # openssl # openssl拡張はコアやけど、libssl/libcryptoはベースイメージに含まれてるはず
+    # ★エラーで名指しされたライブラリを提供してるパッケージをここに追加していく！
 WORKDIR /var/www/html
 
 # builderステージからアプリケーションコード(vendor含む)と最適化済みファイルをコピー
