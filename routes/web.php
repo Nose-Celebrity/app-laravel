@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Auth;
 
 //パスワード変更画面へのルート設定
 Route::get('/change-password', [AuthController::class, 'chLogin'])->name('password.change');
-Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update');
+Route::post('/change-password', [AuthController::class, 'updatepassword'])->name('password.update`');
 
 //アカウント新規作成
 Route::get('/new_login', [AuthController::class, 'newlogin'])->name('new.login');
@@ -41,7 +41,7 @@ Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 
 // パスワードの再設定
-Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update'); // ← これが問題のルート                                                                         
 
 // ユーザーのアカウント削除ルート
 Route::delete('/user/delete', [AuthController::class, 'delete'])->name('user.delete');

@@ -1,0 +1,98 @@
+# .github/workflows/laravel-ci-cd.yml
+
+name: Laravel CI/CD - Build, Push, Update Manifests
+
+on:
+  push:
+    branches: [ main ] # mainブランチにプッシュされた時
+
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub Secretsから
+  PHP_FPM_IMAGE_NAME: my-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名
+  NGINX_IMAGE_NAME: my-laravel-app-nginx   # Docker HubでのNginxイメージ名
+  # MANIFEST_REPO_OWNER: YourGitHubUserOrOrg # マニフェスト用リポジトリのオーナー
+  # MANIFEST_REPO_NAME: your-manifest-repo   # マニフェスト用リポジトリの名前
+  # MANIFEST_REPO_BRANCH: main             # マニフェスト用リポジトリのブランチ
+  # MANIFEST_FILE_PATH: path/to/your/deployment.yaml # または values.yaml
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # リポジトリのコードをチェックアウトするために必要
+      packages: write # GitHub Packagesにプッシュする場合 (Docker Hubなら不要)
+
+    steps:
+    - name: Checkout App Repository
+      uses: actions/checkout@v4
+
+    # (ここにPHPUnitテストとか、フロントエンドのアセットビルドとかのステップが入る)
+    # - name: Setup PHP, Install Dependencies, Run Tests
+    #   run: |
+    #     composer install --prefer-dist --no-progress --no-ansi --no-interaction
+    #     cp .env.example .env
+    #     php artisan key:generate --env=ci # CI用の.envにキーを設定
+    #     # php artisan db:seed --env=ci # テストDBの準備
+    #     php artisan test --env=ci
+
+    - name: Set up QEMU (for multi-platform builds, optional)
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ env.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }} # GitHub Secretから
+
+    - name: Determine Image Tag
+      id: image_tag
+      run: |
+        TAG=$(echo ${GITHUB_SHA} | head -c7)
+        echo "TAG=${TAG}" >> $GITHUB_ENV
+        echo "Image tag will be: ${TAG}"
+
+    - name: Build and push PHP-FPM image
+      uses: docker/build-push-action@v6
+      with:
+        context: . # プロジェクトルートをコンテキストにする
+        file: ./docker-prod/php-fpm/Dockerfile # PHP-FPM用Dockerfileのパス
+        push: true
+        tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.PHP_FPM_IMAGE_NAME }}:${{ env.TAG }}, ${{ env.DOCKERHUB_USERNAME }}/${{ env.PHP_FPM_IMAGE_NAME }}:latest
+        # cache-from: type=gha
+        # cache-to: type=gha,mode=max
+
+    - name: Build and push Nginx image
+      uses: docker/build-push-action@v6
+      with:
+        context: ./nginx # Nginx用Dockerfileがあるディレクトリをコンテキストにする
+        file: ./docker-prod/nginx/Dockerfile # Nginx用Dockerfileのパス
+        push: true
+        tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.NGINX_IMAGE_NAME }}:${{ env.TAG }}, ${{ env.DOCKERHUB_USERNAME }}/${{ env.NGINX_IMAGE_NAME }}:latest
+        # cache-from: type=gha
+        # cache-to: type=gha,mode=max
+
+    # --- ここからがCD連携部分 (Argo CDが見てるマニフェストリポジトリを更新) ---
+    # - name: Checkout Manifest Repository
+    #   uses: actions/checkout@v4
+    #   with:
+    #     repository: ${{ env.MANIFEST_REPO_OWNER }}/${{ env.MANIFEST_REPO_NAME }}
+    #     token: ${{ secrets.PAT_FOR_MANIFEST_REPO }} # マニフェストリポジトリに書き込むためのPAT
+    #     path: manifest-repo # チェックアウト先のディレクトリ名
+
+    # - name: Update Kubernetes Manifest (e.g., Deployment image tag or Helm values.yaml)
+    #   run: |
+    #     cd manifest-repo
+    #     # ここで sed コマンドや yq, kustomize, helm コマンドなどで
+    #     # DeploymentのイメージタグやHelmのvalues.yamlのimage.tagを ${{ env.TAG }} に書き換える
+    #     # 例 (sedでDeploymentのイメージを書き換える場合):
+    #     # sed -i "s|image: ${{ env.DOCKERHUB_USERNAME }}/${{ env.PHP_FPM_IMAGE_NAME }}:.*|image: ${{ env.DOCKERHUB_USERNAME }}/${{ env.PHP_FPM_IMAGE_NAME }}:${{ env.TAG }}|g" ${{ env.MANIFEST_FILE_PATH }}
+    #     # git config user.name "GitHub Actions Bot"
+    #     # git config user.email "actions-bot@github.com"
+    #     # git add .
+    #     # git commit -m "Update image tag to ${{ env.TAG }} for ${{ env.PHP_FPM_IMAGE_NAME }} and ${{ env.NGINX_IMAGE_NAME }}"
+    #     # git push origin ${{ env.MANIFEST_REPO_BRANCH }}
+    #   env:
+    #     IMAGE_TAG: ${{ env.TAG }}

@@ -1,77 +1,88 @@
 services:
+  # Update this to the name of the service you want to work with in your docker-compose.yml file
   web:
-    image: ghcr.io/kd-it/php-devcontainer/web:1728614961
+    # Uncomment if you want to override the service's Dockerfile to one in the .devcontainer
+    # folder. Note that the path of the Dockerfile and context is relative to the *primary*
+    # docker-compose.yml file (the first in the devcontainer.json "dockerComposeFile"
+    # array). The sample below assumes your primary file is in the root of your project.
+    #
+    # build:
+    #   context: .
+    #   dockerfile: .devcontainer/Dockerfile
+    ports:
+      # 開発時は80番ポートを使う、ホスト側へのマッピングは127.0.0.1のランダムポートとする
+      - 127.0.0.1::80
 
-    #build: docker/web
-    volumes:
-      - .:/app:cached
-    env_file:
-      - env.txt
-    depends_on:
-      - app
-      - db
-    networks:
-      - app-network
+    # volumes:
+    #   # Update this to wherever you want VS Code to mount the folder of your project
+    #   - ..:/app
 
-  app:
-    image: ghcr.io/kd-it/php-devcontainer/app:1728614960
-    # build: docker/app
-    env_file:
-      - env.txt
-    volumes:
-      - .:/app:cached
-      - vendor:/app/vendor
-    networks:
-      - app-network
+    working_dir: /app
+
+    # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
+    # cap_add:
+    #   - SYS_PTRACE
+    # security_opt:
+    #   - seccomp:unconfined
+
+    # Overrides default command so things don't shut down after the process ends.
+    # command: /bin/sh -c "while sleep 1000; do :; done"
 
   db:
-    image: ghcr.io/densuke/mysql:main
-    #build: db/build
-    env_file:
-      - env.txt
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./database-init:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-    networks:
-      - app-network
+    # 従来の設定を受け継ぎ
 
-  redis:
-    image: redis:alpine
-    container_name: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - app-network
-  node:
-    image: node:20-alpine  # 任意の Node.js バージョン
-    container_name: node-app
-    working_dir: /app
-    volumes:
-      - .:/app:cached
-      - node_modules:/app/node_modules
-    tty: true
-    command: sh -c "npm install && npm run dev"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
     depends_on:
-      - app
+      - db
+    env_file:
+      - ./env.txt
+      - ./.env-pma.txt
+    ports:
+      - 127.0.0.1::80
     networks:
-      - app-network
+      - app-network 
+services:
+  # Update this to the name of the service you want to work with in your docker-compose.yml file
+  web:
+    # Uncomment if you want to override the service's Dockerfile to one in the .devcontainer
+    # folder. Note that the path of the Dockerfile and context is relative to the *primary*
+    # docker-compose.yml file (the first in the devcontainer.json "dockerComposeFile"
+    # array). The sample below assumes your primary file is in the root of your project.
+    #
+    # build:
+    #   context: .
+    #   dockerfile: .devcontainer/Dockerfile
+    ports:
+      # 開発時は80番ポートを使う、ホスト側へのマッピングは127.0.0.1のランダムポートとする
+      - 127.0.0.1::80
 
+    # volumes:
+    #   # Update this to wherever you want VS Code to mount the folder of your project
+    #   - ..:/app
 
-networks:
-  app-network:
-    driver: bridge
+    working_dir: /app
 
-volumes:
-  db_data:
-  vendor:
-  node_modules:
-  redis_data:
+    # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
+    # cap_add:
+    #   - SYS_PTRACE
+    # security_opt:
+    #   - seccomp:unconfined
 
+    # Overrides default command so things don't shut down after the process ends.
+    # command: /bin/sh -c "while sleep 1000; do :; done"
+
+  db:
+    # 従来の設定を受け継ぎ
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    env_file:
+      - ./env.txt
+      - ./.env-pma.txt
+    ports:
+      - 127.0.0.1::80
+    networks:
+      - app-network 

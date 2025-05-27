@@ -9,10 +9,8 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('password.update') }}">
-        @csrf
+    <form method="POST" action="{{ route('password.update') }}"> @csrf
 
-        <!-- トークンをhiddenフィールドとして送信 -->
         <input type="hidden" name="token" value="{{ $token }}">
         <input type="hidden" name="email" value="{{ $email }}">
 
