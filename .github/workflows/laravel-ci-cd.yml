@@ -93,8 +93,6 @@ jobs:
       run: |
         # PHP-FPMイメージのタグを更新 (values.yamlの中の image.tag を書き換える想定)
         # もしPHP-FPMイメージ用のキーが違うなら、そこを修正 (例: .phpFpmImage.tag)
-        yq -i '.phpFpmImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' 'manifest-repo/${{ env.HELM_CHART_VALUES_PATH }}'
-        yq -i '.nginxImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' 'manifest-repo/${{ env.HELM_CHART_PATH_IN_MANIFEST_REPO }}/values.yaml'
         yq -i '.image.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' ${{ env.HELM_CHART_VALUES_PATH }}
         
         # (オプション) もしNginxイメージもvalues.yamlでバージョン管理してるなら、それも更新
