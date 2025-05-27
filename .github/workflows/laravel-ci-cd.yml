@@ -5,11 +5,7 @@ on:
     branches: [ 永城担当 ] # ★CI/CDを動かしたいブランチ名 (例: main, develop)
 
 env:
-<<<<<<< HEAD
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_NAME }} # GitHub SecretsからDocker Hubユーザー名を取得
-=======
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub SecretsからDocker Hubユーザー名を取得
->>>>>>> 87b2957d9a84ce31289e9aba2a74da55dcc1aed0
   PHP_FPM_IMAGE_NAME: nqg1t0-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名 (ユーザー名なし)
   NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名なし)
 
@@ -19,7 +15,10 @@ env:
   MANIFEST_REPO_BRANCH: 永城担当                 # マニフェストリポジトリの更新したいブランチ名
   HELM_CHART_PATH_IN_MANIFEST_REPO: my-nginx-chart # マニフェストリポジトリ内のHelmチャートのパス (例: helm-charts/my-app)
                                                  # このパスに values.yaml がある想定
-
+  # --- ここまでマニフェストリポジトリ情報 ---
+  # ★マニフェストリポジトリへの書き込み用のPATをGitHub Secretsに設定しておくこと！
+  # ★DOCKERHUB_NAME と DOCKERHUB_TOKEN もGitHub Secretsに設定しておくこと！
+  # ★DOCKERHUB_NAME は Docker Hub のユーザー名、DOCKERHUB_TOKEN は Docker Hub のアクセストークン
 jobs:
   # ジョブ1: テスト、イメージビルド、イメージプッシュ
   test-build-and-push:
