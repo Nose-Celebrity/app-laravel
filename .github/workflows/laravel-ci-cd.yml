@@ -5,7 +5,7 @@ on:
     branches: [ 永城担当 ] # ★CI/CDを動かしたいブランチ名 (例: main, develop)
 
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_NAME }} # GitHub SecretsからDocker Hubユーザー名を取得
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub SecretsからDocker Hubユーザー名を取得
   PHP_FPM_IMAGE_NAME: nqg1t0-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名 (ユーザー名なし)
   NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名なし)
 
@@ -54,14 +54,20 @@ jobs:
 
     - name: Set up QEMU (for multi-platform builds, optional)
       uses: docker/setup-qemu-action@v3
+    # QEMUをセットアップして、異なるアーキテクチャのイメージをビルドできるようにする
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    # Buildxをセットアップして、Dockerイメージを効率よくビルドできるようにする
+    # これがないと、Dockerイメージのビルドができない
+    # もしDocker Buildxが必要ない場合は、このステップを削除してもOK
+    # ただし、マルチプラットフォームビルドを行う場合は必要
+    # 例えば、amd64とarm64の両方のアーキテクチャでビルドする場合に使う
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ env.DOCKERHUB_NAME }}
+        username: ${{ env.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }} # GitHub Secretsに DOCKERHUB_TOKEN を設定しておく
 
     - name: Determine Image Tag (short SHA)
