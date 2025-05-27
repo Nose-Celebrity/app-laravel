@@ -127,6 +127,9 @@ jobs:
           # もしNginxイメージもvalues.yamlで管理してるなら、それも更新
           # 例: yq -i '.nginxImage.tag = "${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"' 'manifest-repo/${{ env.HELM_CHART_PATH_IN_MANIFEST_REPO }}/values.yaml'
           echo "Updated image tag in 'manifest-repo/${{ env.HELM_CHART_PATH_IN_MANIFEST_REPO }}/values.yaml' to ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
+          # ここで他の必要な値も更新できる
+  
+
 
     - name: Commit and Push changes to Manifest Repository
       working-directory: ./manifest-repo # チェックアウトしたマニフェストリポジトリのディレクトリに移動
