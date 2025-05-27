@@ -90,7 +90,6 @@ jobs:
     - name: Update Helm Chart values.yaml
       working-directory: ./manifest-repo # ★チェックアウトした manifest-repo ディレクトリに移動して作業する
       run: | # ★ yqアクションを使う代わりに、直接runでyqを実行する (yqがランナーに入ってる前提)
-             #   もしyqが入ってないなら、mikefarah/yqアクションを使う方がええ
         echo "Attempting to update ${{ env.HELM_CHART_VALUES_PATH }} with tag ${{ needs.test-build-and-push.outputs.IMAGE_TAG }}"
         
         # HELM_CHART_VALUES_PATH は 'my-nginx-chart/values.yaml' みたいな相対パスのはず
