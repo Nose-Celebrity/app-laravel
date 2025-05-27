@@ -110,7 +110,7 @@
                 {{-- 削除アイコン（右上） --}}
                 @if ($product->user_id === auth()->id())
                     <div class="product-delete">
-                        <form action="{{ route('products.destroyhome', $product->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？')">
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="icon-button" title="削除">
