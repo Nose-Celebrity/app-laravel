@@ -5,7 +5,11 @@ on:
     branches: [ 永城担当 ] # ★CI/CDを動かしたいブランチ名 (例: main, develop)
 
 env:
+<<<<<<< HEAD
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_NAME }} # GitHub SecretsからDocker Hubユーザー名を取得
+=======
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub SecretsからDocker Hubユーザー名を取得
+>>>>>>> 87b2957d9a84ce31289e9aba2a74da55dcc1aed0
   PHP_FPM_IMAGE_NAME: nqg1t0-laravel-app-fpm # Docker HubでのPHP-FPMイメージ名 (ユーザー名なし)
   NGINX_IMAGE_NAME: nqg1t0-nginx-web     # Docker HubでのNginxイメージ名 (ユーザー名なし)
 
