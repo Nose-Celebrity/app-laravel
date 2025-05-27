@@ -59,7 +59,6 @@
         <h1>作品一覧</h1>
 
             <div class="post">
-                <a href="{{ route('products.create') }}">▶ 新しい制作物を投稿</a>
                 <div class="product-list">
                     <!-- 投稿ページへのリンク -->
                     @forelse ($products as $product)

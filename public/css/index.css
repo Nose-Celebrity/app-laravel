@@ -29,29 +29,29 @@ h1 {
     background: #ffffff;
     border: 1px solid #e0e0e0;
     padding: 16px;
-    margin-bottom: 24px;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0,0,0,0.08);
     overflow: hidden;
     height: 180px; /* ★ 高さ固定 */
+    text-align: center;
 }
 
 .product-list {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            width: fit-content;
         }
         .product-card {
             border: 1px solid #ccc;
             padding: 10px;
             width: 200px;
-            text-align: center;
             box-sizing: border-box;
+            height: 150px;
         }
         .product-card img {
             width: 100%;
             height: auto;
+            margin-bottom: 10px;
         }
         .product-card h3{
             font-size: 1.1rem;
