@@ -54,10 +54,16 @@ jobs:
 
     - name: Set up QEMU (for multi-platform builds, optional)
       uses: docker/setup-qemu-action@v3
+    # QEMUをセットアップして、異なるアーキテクチャのイメージをビルドできるようにする
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    # Buildxをセットアップして、Dockerイメージを効率よくビルドできるようにする
+    # これがないと、Dockerイメージのビルドができない
+    # もしDocker Buildxが必要ない場合は、このステップを削除してもOK
+    # ただし、マルチプラットフォームビルドを行う場合は必要
+    # 例えば、amd64とarm64の両方のアーキテクチャでビルドする場合に使う
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
