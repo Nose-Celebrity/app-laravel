@@ -112,3 +112,6 @@ jobs:
         else
           echo "No changes to commit in values.yaml"
         fi
+
+
+  # --- ★★★ マニフェストリポジトリの更新が必要な場合はここに追加のステップを入れる ★★★ ---
