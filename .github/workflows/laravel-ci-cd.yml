@@ -4,7 +4,7 @@ name: Laravel CI/CD - Build, Push, Update Manifests
 
 on:
   push:
-    branches: [ origin/永城担当 ] # このブランチにプッシュされた時に実行
+    branches: [ 永城担当 ] # このブランチにプッシュされた時に実行
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }} # GitHub Secretsから
