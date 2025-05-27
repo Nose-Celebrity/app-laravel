@@ -8,7 +8,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1
 
 # 必要なシステムライブラリ
-# Laravelでよく使う拡張機能のために、これくらいは入れておくのが無難
+# fileinfoに必要なlibmagicのために file-dev を追加
+# oniguruma-dev は mbstring に必要
 RUN apk add --no-cache \
     build-base \
     autoconf \
@@ -19,34 +20,42 @@ RUN apk add --no-cache \
     jpeg-dev \
     freetype-dev \
     icu-dev \
-    oniguruma-dev \ 
-     # mbstring用
+    oniguruma-dev \
     libxml2-dev \
     libxslt-dev \
     git \
-    file-dev 
-    # fileinfo用 (libmagic)
+    file-dev
 
 # Composerのインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# アプリケーションのコードを先にコピー
+# .dockerignore ファイルで不要なファイル (.git, .env, node_modules, storage/logs/* など) を除外しておくこと
 COPY . .
 
+# ★ビルド時専用の.envファイルを用意
+#   この .env.build の中で CACHE_STORE=file, SESSION_DRIVER=file, QUEUE_CONNECTION=sync
+#   DB_CONNECTION=sqlite, DB_DATABASE=:memory: など、ビルド時にエラーが出ない設定をする
+COPY .env.build .env
+
 # Composerで依存関係をインストール (本番用)
-# --no-scriptsを外して、Laravelの標準スクリプトを実行させる
+# --no-scripts を外して、Laravelの標準スクリプト(package:discoverなど)を実行させる
 RUN composer install --prefer-dist --no-dev --optimize-autoloader
 
 # PHP拡張機能のインストール
 # コアに含まれていない、あるいは明示的なコンパイルが必要なものを中心に
-# json, openssl, ctype, tokenizer, fileinfo の多くはPHP8.0以降コア機能かデフォルトで有効
+# json, openssl, ctype, tokenizer は通常PHP8.2コアに含まれるかデフォルト有効
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd
+
+RUN docker-php-ext-install -j$(nproc) intl
+
+# fileinfo は file-dev を入れたので、これで通るはず
+RUN docker-php-ext-install -j$(nproc) fileinfo
+
 RUN docker-php-ext-install -j$(nproc) \
-    gd \
-    intl \
     pdo pdo_mysql \
     zip \
     opcache \
@@ -55,13 +64,14 @@ RUN docker-php-ext-install -j$(nproc) \
     mbstring \
     xml \
     xsl
-    # ctype, fileinfo, json, openssl, tokenizer は通常PHP8.2コアに含まれるかデフォルト有効なのでリストから外してみる
-    # もし実行時に「ない」と怒られたら、追加でインストールを試す
+    # ctype, json, openssl, tokenizer はPHP8.2コアに含まれるかデフォルト有効なのでリストから外してある
+    # もし実行時に「ない」と怒られたら、その時に追加でインストールを試す
 
 # Redis拡張 (もし使うなら)
 RUN pecl install redis && docker-php-ext-enable redis
 
 # Laravelの最適化 (本番用)
+# .env.build でキャッシュ等がファイルベースになっていれば、DBエラーは出ないはず
 RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \

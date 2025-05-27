@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-sample # 前に作ったのと同じ名前か、新しい名前にする
+  namespace: default # デプロイする名前空間 (defaultでええやろ)
+spec:
+  selector:
+    app: nginx-sample # デプロイメントのラベルと一致させる
+  ports:
+  - protocol: TCP
+    port: 80 # サービスのポート
+    targetPort: 80 # コンテナのポート
