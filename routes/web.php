@@ -41,7 +41,7 @@ Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 
 // パスワードの再設定
-// Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 
 // ユーザーのアカウント削除ルート
 Route::delete('/user/delete', [AuthController::class, 'delete'])->name('user.delete');
