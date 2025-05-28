@@ -24,7 +24,7 @@ class ProductController extends Controller
         if ($request->filled('genre')) {
             $genreId = $request->genre;
             $query->whereHas('genres', function($q) use ($genreId) {
-                $q->where('id', $genreId);
+                $q->where('genre_id', $genreId);
             });
         }
 
