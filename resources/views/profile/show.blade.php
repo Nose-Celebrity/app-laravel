@@ -47,7 +47,7 @@
                 <p class="profile-username"><strong>{{ $user->name }}</strong></p>
                 <p class="profile-email">{{ $user->email }}</p>
                 <p><strong  class="intro-label">自己紹介</strong><br>
-                    <span class="intro-text">{{ $profile->introduction ?? '未登録' }}</span></p>
+                    <span class="intro-text">{!! nl2br(e($profile->introduction ?? '未登録')) !!}</span>
             </div>
         </div>
     </div>
