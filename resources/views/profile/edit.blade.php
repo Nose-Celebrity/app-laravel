@@ -46,20 +46,20 @@
             @csrf
 
             <!-- ユーザー名 -->
-            <div>
-                <label for="name">ユーザー名</label><br>
+            <div class="form-group title-group">
+                <label for="name">ユーザー名</label>
                 <input class="title-input" type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required>
             </div>
 
             <!-- 自己紹介 -->
-            <div>
-                <label for="introduction">自己紹介</label><br>
-                <textarea name="introduction" id="introduction" rows="5" cols="50">{{ old('introduction', $profile->introduction ?? '') }}</textarea>
+            <div class="form-group body-group">
+                <label for="introduction">自己紹介</label>
+                <textarea class ="body-textarea" name="introduction" id="introduction" rows="5" cols="50">{{ old('introduction', $profile->introduction ?? '') }}</textarea>
             </div>
 
             <!-- 現在のプロフィール画像 -->
             <div>
-                <label>現在のプロフィール画像</label><br>
+                <label>現在のプロフィール画像</label>
                 @php
                     $profileImage = $user->photo
                         ? asset('storage/' . $user->photo)
@@ -69,19 +69,19 @@
             </div>
 
             <!-- 新しい画像選択 -->
-            <div>
-                <label for="photo">新しいプロフィール画像を選択</label><br>
-                <input type="file" name="photo" id="photo" accept="image/*" onchange="previewProfileImage(event)">
-            </div>
+            
+            <label>新しいプロフィール画像を選択</label>
+            <input type="file" name="photo" id="photo" accept="image/*" onchange="previewProfileImage(event)">
+            
 
             <!-- 削除フラグ -->
             <input type="hidden" name="delete_photo" id="delete_photo" value="0">
 
             <!-- 画像削除ボタン -->
-            <button type="button" onclick="deleteProfileImage()" class="new-post" style="background-color: #ff5869;">画像を削除</button>
+            <button type="button" onclick="deleteProfileImage()" class="button-user-delete ">画像を削除</button>
 
-            <br><br>
-            <button type="submit" class="new-post">更新する</button>
+            
+            <button type="submit" class="submit-button">更新する</button>
         </form>
     </div>
 

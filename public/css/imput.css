@@ -274,3 +274,31 @@ label {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     margin-top: 10px;
 }
+
+/* 赤ボタンを他から流用 */
+.button-user-delete {
+    border:0;
+    padding: 3px 6px;
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.button-user-delete:hover{
+    background-color: #BA2030;
+}
+
+.bluebutton{
+    border:0;
+    padding: 3px 6px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+}
+.bluebutton:hover{
+    background-color: #0056d2;
+}
