@@ -31,8 +31,8 @@ h1 {
     padding: 16px;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0,0,0,0.08);
-    overflow: hidden;
-    height: 180px; /* ★ 高さ固定 */
+    /*overflow: hidden;
+    /*height: 180px; /* ★ 高さ固定 */
     text-align: center;
 }
 
