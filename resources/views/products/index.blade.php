@@ -64,17 +64,12 @@
                     <!-- 投稿ページへのリンク -->
                     @forelse ($products as $product)
                     <div class="product-card">
+                        <a href="{{ route('products.show', ['id' => $product->id]) }}">
                         <img src="{{ asset('storage/' . $product->photo) }}" alt="作品画像">
+                        </a>
                         <h3>{{ $product->title }}</h3>
                         <a href="{{ route('products.show', ['id' => $product->id]) }}">詳細を見る</a>
-                        @if ($product->user_id === auth()->id())
-                            <a href="{{ route('products.edit',  $product->id) }}">編集</a>
-                            <form method="POST" action="{{ route('products.destroy', $product->id) }}" style="display:inline;" onsubmit="return confirm('本当に削除しますか？');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">削除</button>
-                            </form>
-                        @endif
+
                     </div>
                 @empty
                     <p>作品が登録されていません。</p>
