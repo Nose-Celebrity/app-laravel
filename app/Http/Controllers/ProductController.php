@@ -24,11 +24,11 @@ class ProductController extends Controller
         if ($request->filled('genre')) {
             $genreId = $request->genre;
             $query->whereHas('genres', function($q) use ($genreId) {
-                $q->where('genre_id', $genreId);
+                $q->where('id', $genreId);
             });
         }
 
-        $products = $query->latest()->get();
+        //$products = $query->latest()->get();
         $products = $query->with('user')->latest()->get();
         $genres = Genres::all();
 

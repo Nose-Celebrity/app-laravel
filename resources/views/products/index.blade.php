@@ -16,6 +16,7 @@
         <div class="header-right">
             <!-- 検索フォーム -->
             <div class="search-box">
+                <form method="GET" action="{{ route('products.index') }}">
                 <input type="text" name="keyword" value="{{ request('keyword')}}" placeholder="検索内容を入力" class="search-input">
                 <img src="{{ asset('image/icons/search.png') }}" alt="検索" class="search-icon">
             </div>
