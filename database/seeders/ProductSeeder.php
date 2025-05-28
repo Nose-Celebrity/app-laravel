@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\User; // Userモデルを使用するため追加
+use App\Models\Genres;
 
 class ProductSeeder extends Seeder
 {
